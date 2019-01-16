@@ -1,4 +1,4 @@
-package com.lgz.crazy;
+package com.lgz.crazy.lifecycle;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

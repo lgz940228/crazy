@@ -1,4 +1,4 @@
-package com.lgz.crazy;
+package com.lgz.crazy.lifecycle;
 
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

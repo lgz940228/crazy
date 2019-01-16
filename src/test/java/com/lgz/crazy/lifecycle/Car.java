@@ -1,7 +1,10 @@
-package com.lgz.crazy;
+package com.lgz.crazy.lifecycle;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * Created by lgz on 2019/1/16.
@@ -39,5 +42,15 @@ public class Car implements InitializingBean,DisposableBean {
     @Override
     public void destroy(){
         System.out.println("InitializingBean destroy");
+    }
+
+    @PostConstruct
+    public void postConstruct(){
+        System.out.println("postConstruct");
+    }
+
+    @PreDestroy
+    public void PreDestroy(){
+        System.out.println("PreDestroy");
     }
 }
