@@ -2,6 +2,7 @@ package com.lgz.crazy.lifecycle;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -9,20 +10,30 @@ import javax.annotation.PreDestroy;
 /**
  * Created by lgz on 2019/1/16.
  */
-public class Car implements InitializingBean,DisposableBean,BeanFactoryAware, BeanNameAware{
+@Component
+public class Dog implements InitializingBean,DisposableBean,BeanFactoryAware, BeanNameAware{
 
     private String name;
 
     public String getName() {
         return name;
     }
+   /* @Autowired
+    private Eye eye;
+    public Eye getEye() {
+        return eye;
+    }
+
+    public void setEye(Eye eye) {
+        this.eye = eye;
+    }*/
 
     public void setName(String name) {
         System.out.println("【7.Bean注入属性】setName方法");
         this.name = name;
     }
 
-    public Car() {
+    public Dog() {
         System.out.println("【6.Bean构造器】");
     }
 
