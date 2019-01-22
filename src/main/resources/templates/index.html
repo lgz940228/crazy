@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel="stylesheet" th:href="@{/css/reset.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript">
+        $(document).ready(function(){
+            $("p").click(function(){
+                alert("aaa");
+                $(this).hide();
+            });
+        });
+	</script>
+</head>
+<body>
+	<p>If you click on me, I will disappear.</p>
+	<h1>index</h1>
+	<div th:text="${hello}"></div>
+
+</body>
+</html>
