@@ -14,4 +14,8 @@ public class hello {
     public String h(){
         return "hello the world!";
     }
+    @RequestMapping("s")
+    public String success(){
+        return "success";
+    }
 }
