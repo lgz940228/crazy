@@ -18,9 +18,17 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer{
         configurer.setUseRegisteredSuffixPatternMatch(true);
     }
     @Bean
-    public ServletRegistrationBean servletRegistrationBean(DispatcherServlet dispatcherServlet) {
+    public ServletRegistrationBean servletRegistrationBean1(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean<DispatcherServlet> servletServletRegistrationBean = new ServletRegistrationBean<>(dispatcherServlet);
         servletServletRegistrationBean.addUrlMappings("*.do");
+        servletServletRegistrationBean.addUrlMappings("*.html");
+        servletServletRegistrationBean.addUrlMappings("*.css");
+        servletServletRegistrationBean.addUrlMappings("*.js");
+        servletServletRegistrationBean.addUrlMappings("*.png");
+        servletServletRegistrationBean.addUrlMappings("*.gif");
+        servletServletRegistrationBean.addUrlMappings("*.ico");
+        servletServletRegistrationBean.addUrlMappings("*.jpeg");
+        servletServletRegistrationBean.addUrlMappings("*.jpg");
         return servletServletRegistrationBean;
     }
 }
