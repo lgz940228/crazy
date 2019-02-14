@@ -79,6 +79,11 @@
 			<version>1.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.tobato</groupId>
+			<artifactId>fastdfs-client</artifactId>
+			<version>1.26.2</version>
+		</dependency>
 		<!-- 修改后立即生效，热部署 -->
 		<!--<dependency>
 			<groupId>org.springframework</groupId>
