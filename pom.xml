@@ -54,6 +54,11 @@
 			<version>1.0.31</version>
 		</dependency>
 		<dependency>
+			<groupId>com.github.axet</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>0.0.9</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -84,6 +89,12 @@
 			<artifactId>fastdfs-client</artifactId>
 			<version>1.26.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
 		<!-- 修改后立即生效，热部署 -->
 		<!--<dependency>
 			<groupId>org.springframework</groupId>
