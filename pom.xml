@@ -83,6 +83,11 @@
 			<artifactId>ooxml-schemas</artifactId>
 			<version>1.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.4</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.github.tobato</groupId>
@@ -99,11 +104,12 @@
 		<!--<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>springloaded</artifactId>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>-->
+			<optional>true</optional>
+		</dependency>
 
 
 

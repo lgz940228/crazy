@@ -17,11 +17,18 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer{
         //开启路径后缀匹配
         configurer.setUseRegisteredSuffixPatternMatch(true);
     }
+
+    /*@Override
+    public void addViewControllers(ViewControllerRegistry registry){
+        registry.addViewController("/").setViewName("forward:/default.html");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    }*/
+
     @Bean
     public ServletRegistrationBean servletRegistrationBean1(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean<DispatcherServlet> servletServletRegistrationBean = new ServletRegistrationBean<>(dispatcherServlet);
         servletServletRegistrationBean.addUrlMappings("*.do");
-        servletServletRegistrationBean.addUrlMappings("*.html");
+        //servletServletRegistrationBean.addUrlMappings("*.html");
         servletServletRegistrationBean.addUrlMappings("*.css");
         servletServletRegistrationBean.addUrlMappings("*.js");
         servletServletRegistrationBean.addUrlMappings("*.png");
@@ -29,6 +36,12 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer{
         servletServletRegistrationBean.addUrlMappings("*.ico");
         servletServletRegistrationBean.addUrlMappings("*.jpeg");
         servletServletRegistrationBean.addUrlMappings("*.jpg");
+        servletServletRegistrationBean.addUrlMappings("*.otf");
+        servletServletRegistrationBean.addUrlMappings("*.eot");
+        servletServletRegistrationBean.addUrlMappings("*.svg");
+        servletServletRegistrationBean.addUrlMappings("*.ttf");
+        servletServletRegistrationBean.addUrlMappings("*.woff");
+        servletServletRegistrationBean.addUrlMappings("*.woff2");
         return servletServletRegistrationBean;
     }
 }

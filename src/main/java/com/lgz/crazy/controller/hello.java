@@ -14,7 +14,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by lgz on 2019/1/16.
@@ -32,11 +31,11 @@ public class hello {
         return "success";
     }
 
-    @RequestMapping("index")
+ /*   @RequestMapping("index")
     public String index(Map<String,String> map){
         map.put("hello","你好");
         return "index";
-    }
+    }*/
     @RequestMapping("index1")
     public ModelAndView index1(){
         ModelAndView mv = new ModelAndView("index");

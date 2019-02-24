@@ -24,6 +24,7 @@ import java.io.IOException;
  * Created by lgz on 2019/2/22.
  */
 @Controller
+@RequestMapping("api/common")
 public class KaptchaController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KaptchaController.class);
@@ -35,7 +36,7 @@ public class KaptchaController {
      * Description: 生成验证码
      * @return
      */
-    @RequestMapping(value = "/common/getYzmImage", method = RequestMethod.GET)
+    @RequestMapping(value = "/getYzmImage", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getKaptchaImage(HttpSession session) {
 
         ResponseEntity<byte[]> responseEntity = null;
