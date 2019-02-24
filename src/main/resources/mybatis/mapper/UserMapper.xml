@@ -30,7 +30,7 @@
     <select id="getUserByCondition" resultType="com.lgz.crazy.business.user.entities.User" parameterType="com.lgz.crazy.business.user.entities.User">
       SELECT
         <include refid="selectAll"/>
-      FROM user_info AS u
+      FROM sys_user AS u
       WHERE u.status=1
         <if test="loginName != null">
             AND u.login_name=#{loginName}
@@ -44,7 +44,7 @@
     </select>
     
     <insert id="registerUser" parameterType="com.lgz.crazy.business.user.entities.User">
-        INSERT INTO user_info
+        INSERT INTO sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
