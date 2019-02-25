@@ -1,6 +1,7 @@
 package com.lgz.crazy.business.user.service.impl;
 
 import com.lgz.crazy.business.user.dao.UserDao;
+import com.lgz.crazy.business.user.entities.LoginInfo;
 import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.business.user.service.UserService;
 import com.lgz.crazy.common.constant.Constant;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
             if(list!=null && list.size()>0){
                 User user = list.get(0);
                 res.setData(user);
-                return Res.getSuccessResult(user);
+                return Res.getSuccessResult(user,null);
             }
             res.setMsg("用户不存在");
         }catch (Exception e){
@@ -57,8 +58,9 @@ public class UserServiceImpl implements UserService {
         Res res = Res.getFailedResult();
         try {
             //判断是否存在该用户
-            if(isExistUser(user)){
-                res.setMsg("该用户已经存在");
+            Res isExist = isExistUser(user);
+            if(NumUtil.eq(isExist.getStatus(),Res.SUCCESSSTATUS)){
+                res.setMsg(isExist.getMsg());
                 return res;
             }
             //设置密码
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
             Integer integer = userDao.registerUser(user);
             if(NumUtil.gt(integer,0)){
-                return Res.getSuccessResult(integer);
+                return Res.getSuccessResult(integer,null);
             }
             res.setMsg("注册失败");
         }catch (Exception e){
@@ -84,7 +86,7 @@ public class UserServiceImpl implements UserService {
     }
     //登录
     @Override
-    public Res<Object> login(User user,HttpServletRequest request, HttpSession session){
+    public Res<Object> login(User user,Boolean isMobile,HttpServletRequest request, HttpSession session){
         Res res = Res.getFailedResult();
         try {
             Res<User> userByCondition = getUserByCondition(user);
@@ -97,10 +99,12 @@ public class UserServiceImpl implements UserService {
             String passwd = u.getPasswd();
             String newPwd = EncryptUtil.encryptMD5(user.getPasswd()+salt);
             if(passwd.equals(newPwd)){
-                u.setSalt(null);
-                u.setPasswd(null);
-                session.setAttribute(SessionConstant.USER_LOGIN_INFO,u);
-                return Res.getSuccessResult(getForwardUrl(request));
+                LoginInfo loginInfo = new LoginInfo();
+                Integer loginType = isMobile?1:2;
+                loginInfo.setLoginType(loginType);
+                setLoginInfoParam(loginInfo,u);
+                session.setAttribute(SessionConstant.USER_LOGIN_INFO,loginInfo);
+                return Res.getSuccessResult(getForwardUrl(request),null);
             }
         res.setMsg("用户名或密码错误!");
         }catch (Exception e){
@@ -115,18 +119,26 @@ public class UserServiceImpl implements UserService {
     public Res<Boolean> logout(HttpSession session){
         try {
             session.removeAttribute(SessionConstant.USER_LOGIN_INFO);
-            return Res.getSuccessResult(true);
+            return Res.getSuccessResult(true,null);
         }catch (Exception e){
             return Res.getExceptResult("退出异常:"+e.getMessage());
         }
     }
 
-    public Boolean isExistUser(User user){
-        Res<User> userByUName = getUserByCondition(user);
-        if(NumUtil.eq(Res.SUCCESSSTATUS,userByUName.getStatus())){
-            return true;
+    public Res isExistUser(User user){
+        User u = new User();
+        u.setMobile(user.getMobile());
+        Res<User> resTemp = getUserByCondition(u);
+        if(NumUtil.eq(Res.SUCCESSSTATUS,resTemp.getStatus())){
+            return Res.getSuccessResult(null,"该手机号已经存在！");
         }
-        return false;
+        User userEmail = new User();
+        userEmail.setEmail(user.getEmail());
+        resTemp = getUserByCondition(u);
+        if(NumUtil.eq(Res.SUCCESSSTATUS,resTemp.getStatus())){
+           return Res.getSuccessResult(null,"该邮箱已经存在！");
+        }
+        return Res.getFailedResult("该用户不存在！");
     }
 
     private String getForwardUrl(HttpServletRequest request) throws UnsupportedEncodingException{
@@ -141,6 +153,25 @@ public class UserServiceImpl implements UserService {
         }
         return responseForwardUrl;
     }
-
+    private void setLoginInfoParam(LoginInfo loginInfo,User user){
+        loginInfo.setId(user.getId());
+        loginInfo.setBirthday(user.getBirthday());
+        loginInfo.setCancelReason(user.getCancelReason());
+        loginInfo.setCancelTime(user.getCancelTime());
+        loginInfo.setCity(user.getCity());
+        loginInfo.setCreateTime(user.getCreateTime());
+        loginInfo.setEmail(user.getEmail());
+        loginInfo.setImg(user.getImg());
+        loginInfo.setIcon(user.getIcon());
+        loginInfo.setMobile(user.getMobile());
+        loginInfo.setNick(user.getNick());
+        loginInfo.setPersonalizedSignature(user.getPersonalizedSignature());
+        loginInfo.setResetPwdTime(user.getResetPwdTime());
+        loginInfo.setRoleId(user.getRoleId());
+        loginInfo.setSex(user.getSex());
+        loginInfo.setTel(user.getTel());
+        loginInfo.setUserName(user.getUserName());
+        loginInfo.setResetPwdTime(user.getResetPwdTime());
+    }
 
 }

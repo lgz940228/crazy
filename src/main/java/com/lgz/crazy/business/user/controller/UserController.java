@@ -3,6 +3,7 @@ package com.lgz.crazy.business.user.controller;
 import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.business.user.service.UserService;
 import com.lgz.crazy.common.entities.Res;
+import com.lgz.crazy.common.utils.CheckUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,30 +34,65 @@ public class UserController {
     //登录
     @RequestMapping("/login")
     @ResponseBody
-    public Res login(User user, HttpServletRequest request, HttpSession session){
-        if(StringUtils.isBlank(user.getPasswd())|| StringUtils.isBlank(user.getLoginName())){
+    public Res login(String loginName,String passwd, HttpServletRequest request, HttpSession session){
+        if(StringUtils.isBlank(passwd)|| StringUtils.isBlank(loginName)){
             return Res.getFailedResult("用户名或密码不能为空!");
         }
-        return userService.login(user,request,session);
+        Boolean isEmail = CheckUtil.isEmail(loginName);
+        Boolean isMobile = CheckUtil.isMobile(loginName);
+        User user = new User();
+        user.setPasswd(passwd);
+        if(isEmail){
+            user.setEmail(loginName);
+        }else if(isMobile){
+            user.setMobile(loginName);
+        }else {
+            return Res.getFailedResult("手机号或邮箱格式不正确！");
+        }
+        return userService.login(user,isMobile,request,session);
     }
-
+    @RequestMapping("/toRegister")
+    public ModelAndView toRegister(){
+        return new ModelAndView("register");
+    }
     //注册
     @RequestMapping("/registerUser")
     @ResponseBody
     public Res<Integer> registerUser(User user){
         Res res = Res.getFailedResult();
-        if(StringUtils.isBlank(user.getLoginName())){
-            res.setMsg("用户名不能为空!");
-            return res;
-        }
-        if(StringUtils.isBlank(user.getPasswd())){
-            res.setMsg("密码不能为空!");
-            return res;
-        }
         try {
+            String mobile = user.getMobile();
+            if(StringUtils.isBlank(mobile)){
+                res.setMsg("手机号不能为空!");
+                return res;
+            }
+            String email = user.getEmail();
+            if(StringUtils.isBlank(email)){
+                res.setMsg("邮箱不能为空!");
+                return res;
+            }
+            if(StringUtils.isBlank(user.getPasswd())||StringUtils.isBlank(user.getRePwd())){
+                res.setMsg("密码不能为空!");
+                return res;
+            }
+            if(!user.getPasswd().equals(user.getRePwd())){
+                res.setMsg("两次密码不一致！");
+                return res;
+            }
+            if(!CheckUtil.isMobile(mobile)){
+                res.setMsg("手机号格式不正确！");
+                return res;
+            }
+            if(!CheckUtil.isEmail(email)){
+                res.setMsg("邮箱格式不正确！");
+                return res;
+            }
+            user.setMobile(mobile.trim());
+            user.setEmail(email.trim());
+            user.setPasswd(user.getPasswd().trim());
             return userService.registerUser(user);
         }catch (Exception e){
-            res.setMsg("注册失败");
+            res.setMsg("注册异常");
         }
         return res;
     }
@@ -89,21 +125,5 @@ public class UserController {
             return true;
         }
         return false;
-    }
-
-    @RequestMapping("/isExistUser")
-    @ResponseBody
-    public Res<Boolean> isExistUser(User user){
-        Res res = Res.getFailedResult();
-        if(checkParamOne(user)){
-            res.setMsg("参数不正确!");
-            return res;
-        }
-        Boolean existUser = userService.isExistUser(user);
-        if(existUser){
-            return Res.getSuccessResult(true);
-        }
-        res.setData(false);
-        return res;
     }
 }

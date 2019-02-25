@@ -24,9 +24,14 @@ public class Res<T> {
         return result;
     }
 
-    public static <T> Res getSuccessResult(T t) {
+    public static <T> Res getSuccessResult(T t,String msg) {
         Res result = new Res();
-        result.setMsg(SUCCESSMSG);
+        if(msg!=null){
+            result.setMsg(msg);
+        }else {
+            result.setMsg(SUCCESSMSG);
+        }
+
         result.setStatus(SUCCESSSTATUS);
         result.setData(t);
         return result;

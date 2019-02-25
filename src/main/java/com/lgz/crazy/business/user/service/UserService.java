@@ -15,9 +15,9 @@ public interface UserService {
 
     Res<Integer> registerUser(User user);
 
-    Boolean isExistUser(User user);
+    Res isExistUser(User user);
 
-    Res<Object> login(User user, HttpServletRequest request, HttpSession session);
+    Res<Object> login(User user,Boolean isMobile, HttpServletRequest request, HttpSession session);
 
     Res<Boolean> logout(HttpSession session);
 }
