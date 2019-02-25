@@ -1,11 +1,9 @@
 package com.lgz.crazy.common.utils;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 /**
  * Created by lgz on 2019/2/21.
@@ -14,13 +12,6 @@ public class EncryptUtil {
 
     private static final String MD5="MD5";
     private static final String CHARSET_UTF8="UTF-8";
-
-    public static String getSalt(){
-        SecureRandom random = new SecureRandom();
-        byte bytes[] = new byte[15];
-        random.nextBytes(bytes);
-        return Base64.encodeBase64String(bytes);
-    }
 
     public static String encryptMD5(String str) throws NoSuchAlgorithmException,UnsupportedEncodingException{
         return DigestUtils.md5Hex(str);

@@ -26,6 +26,10 @@ public class UuidUitl {
         return shortBuffer.toString();
     }
 
+    public static String getSalt(){
+        return generateUuidNo();
+    }
+
     public static String generateSkuNo(){
         StringBuffer sb = new StringBuffer();
         sb.append(SKU);

@@ -9,6 +9,7 @@ import com.lgz.crazy.common.entities.Res;
 import com.lgz.crazy.common.utils.DateUtil;
 import com.lgz.crazy.common.utils.EncryptUtil;
 import com.lgz.crazy.common.utils.NumUtil;
+import com.lgz.crazy.common.utils.UuidUitl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,6 @@ public class UserServiceImpl implements UserService {
             List<User> list = userDao.getUserByCondition(param);
             if(list!=null && list.size()>0){
                 User user = list.get(0);
-                user.setSalt(null);
-                user.setPasswd(null);
                 res.setData(user);
                 return Res.getSuccessResult(user);
             }
@@ -45,6 +44,13 @@ public class UserServiceImpl implements UserService {
             return Res.getExceptResult("查询用户异常:"+e.getMessage());
         }
         return res;
+    }
+
+    public static void main(String[] args) throws Exception{
+        String salt = UuidUitl.getSalt();
+        System.out.println(salt);
+        String pwdMD5 = EncryptUtil.encryptMD5("admin"+salt);
+        System.out.println(pwdMD5);
     }
     //注册用户
     public Res<Integer> registerUser(User user){
@@ -56,7 +62,7 @@ public class UserServiceImpl implements UserService {
                 return res;
             }
             //设置密码
-            String salt = EncryptUtil.getSalt();
+            String salt = UuidUitl.getSalt();
             user.setSalt(salt);
             String pwd = user.getPasswd();
             String pwdMD5 = EncryptUtil.encryptMD5(pwd+salt);
@@ -88,14 +94,15 @@ public class UserServiceImpl implements UserService {
             }
             User u = userByCondition.getData();
             String salt = u.getSalt();
-            String passwd = user.getPasswd();
-            String newPwd = EncryptUtil.encryptMD5(passwd+salt);
+            String passwd = u.getPasswd();
+            String newPwd = EncryptUtil.encryptMD5(user.getPasswd()+salt);
             if(passwd.equals(newPwd)){
                 u.setSalt(null);
                 u.setPasswd(null);
                 session.setAttribute(SessionConstant.USER_LOGIN_INFO,u);
                 return Res.getSuccessResult(getForwardUrl(request));
             }
+        res.setMsg("用户名或密码错误!");
         }catch (Exception e){
             return Res.getExceptResult("登录异常:"+e.getMessage());
         }
