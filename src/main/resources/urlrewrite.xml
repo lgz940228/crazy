@@ -8,6 +8,6 @@
     <!-- 首页 -->
 	<rule>
 		<from>^/$</from>
-		<to>/index.do</to>
+		<to>/api/index/index.do</to>
 	</rule>
 </urlrewrite>
