@@ -28,7 +28,7 @@
 							<a th:href="@{/api/user/toLogin.do}" target="_top" class="h" th:if="${session.userLoginInfo == null}">亲，请登录</a>
 							<a href="#" target="_top" class="h" th:if="${session.userLoginInfo != null}">当前账号</a>
 							<a href="#" target="_top" th:if="${session.userLoginInfo != null}" th:text="${session.userLoginInfo.loginType==1?session.userLoginInfo.mobile:session.userLoginInfo.email}"></a>
-							<a href="#" target="_top" th:if="${session.userLoginInfo == null}">免费注册</a>
+							<a th:href="@{/api/user/toRegister.do}" target="_top" th:if="${session.userLoginInfo == null}">免费注册</a>
 						</div>
 					</div>
 				</ul>
@@ -44,6 +44,7 @@
 					</div>
 					<div class="topMessage favorite">
 						<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+					</div>
 				</ul>
 				</div>
 
