@@ -99,10 +99,9 @@ public class UserController {
 
     //退出
     @RequestMapping("/logout")
-    public ModelAndView logout(HttpSession session){
-        ModelAndView mv = new ModelAndView("login");
+    public String logout(HttpSession session){
         userService.logout(session);
-        return mv;
+        return "redirect:/api/user/toLogin.html";
     }
     //重置密码
 

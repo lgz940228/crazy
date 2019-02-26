@@ -20,7 +20,7 @@ $(function(){
                         //title: '错误提示',
                         content: '注册成功',
                         onConfirm: function() {
-                            window.location.href="/api/user/toLogin.do";
+                            window.location.href="/api/user/toLogin.html";
                             //return;
                         }
                     });

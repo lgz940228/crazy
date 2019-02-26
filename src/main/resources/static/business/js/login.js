@@ -13,7 +13,7 @@ $(function(){
         $.post("/api/user/login.do", { loginName: loginName, passwd: pwd },
             function(data){
                 if(data.status==1){
-                    window.location.href = "/api/index/index.do";
+                    window.location.href = "/api/index/index.html";
                 }else{
                     alert(data.msg);
                 }

@@ -4,10 +4,26 @@
 
 <!-- Configuration file for UrlRewriteFilter http://tuckey.org/urlrewrite/ -->
 <urlrewrite>
-    
     <!-- 首页 -->
 	<rule>
 		<from>^/$</from>
 		<to>/api/index/index.do</to>
 	</rule>
+	<rule>
+		<from>^/api/index/index.html$</from>
+		<to>/api/index/index.do</to>
+	</rule>
+	<rule>
+		<from>^/api/user/toLogin.html$</from>
+		<to>/api/user/toLogin.do</to>
+	</rule>
+	<rule>
+		<from>^/api/user/toRegister.html$</from>
+		<to>/api/user/toRegister.do</to>
+	</rule>
+	<rule>
+		<from>^/api/personal/personal.html$</from>
+		<to>/api/personal/toPersonal.do</to>
+	</rule>
+
 </urlrewrite>
