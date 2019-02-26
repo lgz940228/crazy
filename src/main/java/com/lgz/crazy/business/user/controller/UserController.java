@@ -99,10 +99,11 @@ public class UserController {
 
     //退出
     @RequestMapping("/logout")
-    public Res<Boolean> logout(HttpSession session){
-        return userService.logout(session);
+    public ModelAndView logout(HttpSession session){
+        ModelAndView mv = new ModelAndView("login");
+        userService.logout(session);
+        return mv;
     }
-
     //重置密码
 
     //注销账户

@@ -88,7 +88,6 @@ $(function(){
             });
             return false;
         }
-        alert("a");
         if(!validatorEmail(email)){
             AMUI.dialog.alert({
                 title: '错误提示',
@@ -103,6 +102,16 @@ $(function(){
             AMUI.dialog.alert({
                 title: '错误提示',
                 content: '手机格式不正确',
+                onConfirm: function() {
+                    //return;
+                }
+            });
+            return false;
+        }
+        if(!($('#reader-me').is(':checked'))) {
+            AMUI.dialog.alert({
+                //title: '错误提示',
+                content: '请选择同意服务协议',
                 onConfirm: function() {
                     //return;
                 }

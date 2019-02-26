@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
         }
         User userEmail = new User();
         userEmail.setEmail(user.getEmail());
-        resTemp = getUserByCondition(u);
+        resTemp = getUserByCondition(userEmail);
         if(NumUtil.eq(Res.SUCCESSSTATUS,resTemp.getStatus())){
            return Res.getSuccessResult(null,"该邮箱已经存在！");
         }

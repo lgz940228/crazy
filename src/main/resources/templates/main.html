@@ -28,6 +28,7 @@
 							<a th:href="@{/api/user/toLogin.do}" target="_top" class="h" th:if="${session.userLoginInfo == null}">亲，请登录</a>
 							<a href="#" target="_top" class="h" th:if="${session.userLoginInfo != null}">当前账号</a>
 							<a href="#" target="_top" th:if="${session.userLoginInfo != null}" th:text="${session.userLoginInfo.loginType==1?session.userLoginInfo.mobile:session.userLoginInfo.email}"></a>
+							<a th:href="@{/api/user/logout.do}" target="_top" class="h" th:if="${session.userLoginInfo != null}">退出</a>
 							<a th:href="@{/api/user/toRegister.do}" target="_top" th:if="${session.userLoginInfo == null}">免费注册</a>
 						</div>
 					</div>
