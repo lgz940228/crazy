@@ -1,5 +1,6 @@
 package com.lgz.crazy.ftp;
 
+import com.lgz.crazy.config.ftp.FTPUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,15 @@ import java.io.IOException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FtpClientTest {
+
+    /**
+     * 测试上传
+     */
+    @Test
+    public void uploadFile(){
+        boolean flag = FTPUtils.uploadFile("/","1.png", "D:\\photo\\1.png");
+        System.out.println(flag);
+    }
     /**
      * 测试上传
      * https://www.jb51.net/article/153276.htm
