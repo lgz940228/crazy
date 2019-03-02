@@ -19,7 +19,7 @@ public class FtpClientTest {
      */
     @Test
     public void uploadFile(){
-        boolean flag = FTPUtils.uploadFile("/","1.png", "D:\\photo\\1.png");
+        boolean flag = FTPUtils.uploadFile("/personal","1.png", "D:\\photo\\1.png");
         System.out.println(flag);
     }
     /**

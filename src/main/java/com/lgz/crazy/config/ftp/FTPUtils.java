@@ -99,7 +99,7 @@ public class FTPUtils {
         try {
             getFTPClient();
             ftpClient.enterLocalPassiveMode();
-            if(ftpClient.changeWorkingDirectory(dir)){
+            if(!ftpClient.changeWorkingDirectory(dir)){
                 throw new RuntimeException("切换目录失败dir="+dir);
             }
             result = ftpClient.storeFile(remoteFileName, input);
