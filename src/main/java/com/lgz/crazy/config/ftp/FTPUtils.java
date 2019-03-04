@@ -158,7 +158,7 @@ public class FTPUtils {
                 if(input!= null){
                     input.close();
                 }
-                ftpClient.disconnect();
+                //ftpClient.disconnect();
             }catch (Exception e){
                 log.error("流关闭异常",e);
             }
