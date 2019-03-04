@@ -1,15 +1,20 @@
 package com.lgz.crazy.config.ftp;
 
+import com.lgz.crazy.common.entities.Res;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 /**
  * Created by lgz on 2019/2/27.
@@ -84,6 +89,49 @@ public class FTPUtils {
         ftpClientPool.addObject(ftpClient);
     }
 
+    public static Res<List<String>> upload(String dir,List<MultipartFile> listFile){
+        Res res = Res.getFailedResult();
+        List<String> list = new ArrayList<>();
+        try {
+            for (MultipartFile file : listFile) {
+                String originalFilename = file.getOriginalFilename();
+                InputStream inputStream = file.getInputStream();
+                String suffix = getSuffix(originalFilename);
+                //String prefix = getPrefix(remoteFileName);
+                String ftpFileName = UUID.randomUUID()+"-"+ System.currentTimeMillis() + suffix;
+                dir=dir.startsWith("/uploads")?dir:dir.startsWith("/")?"/uploads"+dir:"/uploads/"+dir;
+                if(!FTPUtils.uploadFile(dir,ftpFileName,inputStream)){
+                    res.setMsg("图片上传失败");
+                    return res;
+                }
+                dir=dir.endsWith("/")?dir:dir+"/";
+                String fileUrl = dir+ftpFileName;
+                list.add(fileUrl);
+            }
+            return Res.getSuccessResult(list,"上传成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            res.setMsg("图片上传异常e="+e.getMessage());
+        }
+        return res;
+
+    }
+
+    private static String getPrefix(String fileName) {
+        int idx = fileName.lastIndexOf('.');
+        if (idx > -1) {
+            return fileName.substring(0, idx);
+        }
+        return fileName;
+    }
+
+    private static String getSuffix(String fileName) {
+        int idx = fileName.lastIndexOf('.');
+        if (idx > -1) {
+            return fileName.substring(idx);
+        }
+        return "";
+    }
     /**
      * Description: 向FTP服务器上传文件
      *
