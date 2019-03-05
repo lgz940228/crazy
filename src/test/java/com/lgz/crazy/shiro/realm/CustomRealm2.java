@@ -5,9 +5,13 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lgz on 2019/3/1.
@@ -39,7 +43,21 @@ public class CustomRealm2 extends AuthorizingRealm{
     //用于授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        //从principalCollection中获取身份信息
+        //将principalCollection.getPrimaryPrincipal()方法返回转为真是身份类型（上边的doGetAuthenticationInfo认证通过填充到SimpleAuthenticationInfo中的身份类型）
+        String userCode = (String)principalCollection.getPrimaryPrincipal();
+        //根据身份信息获取权限信息
+        //连接数据库
+        // 模拟数据库
+        List<String> permission = new ArrayList<>();
+        permission.add("user:create");
+        permission.add("items:add");
+        //...
+        //查到权限数据，返回授权信息（要包括上边的permissions）
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        //将上边的查到的信息放到SimpleAuthorizationInfo
+        simpleAuthorizationInfo.addStringPermissions(permission);
+        return simpleAuthorizationInfo;
     }
 
 
