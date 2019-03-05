@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("all")
 public class FTPClientPool implements ObjectPool<FTPClient> {
 
-    private static final int DEFAULT_POOL_SIZE = 10;
+    private static final int DEFAULT_POOL_SIZE = 5;
 
     public BlockingQueue<FTPClient> blockingQueue;
 
@@ -50,12 +50,12 @@ public class FTPClientPool implements ObjectPool<FTPClient> {
      */
     @Override
     public FTPClient borrowObject() throws Exception {
-        FTPClient client = blockingQueue.take();
+        FTPClient client = blockingQueue.poll(5,TimeUnit.SECONDS);
         if(client == null) {
-            client = factory.makeObject();
+            client = reconnect();
         } else if(!factory.validateObject(client)) {
             invalidateObject(client);
-            client = factory.makeObject();
+            client = reconnect();
         }
         return client;
     }
@@ -65,13 +65,7 @@ public class FTPClientPool implements ObjectPool<FTPClient> {
      */
     @Override
     public void returnObject(FTPClient client) throws Exception {
-        if ((client != null) && !blockingQueue.offer(client,2, TimeUnit.MINUTES)) {
-            try {
-                factory.destroyObject(client);
-            } catch (Exception e) {
-                throw e;
-            }
-        }
+        addObject(client);
     }
 
     /**
@@ -80,6 +74,7 @@ public class FTPClientPool implements ObjectPool<FTPClient> {
     @Override
     public void invalidateObject(FTPClient client) throws Exception {
         blockingQueue.remove(client);
+        factory.destroyObject(client);
     }
 
     /**
@@ -137,6 +132,12 @@ public class FTPClientPool implements ObjectPool<FTPClient> {
      * 增加一个新的链接，超时失效
      */
     public void addObject(FTPClient ftpClient) throws Exception {
-        blockingQueue.put(ftpClient);
+        if ((ftpClient != null) && !blockingQueue.offer(ftpClient,5, TimeUnit.MINUTES)) {
+            try {
+                factory.destroyObject(ftpClient);
+            } catch (Exception e) {
+                throw e;
+            }
+        }
     }
 }

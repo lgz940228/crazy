@@ -48,7 +48,8 @@ public class FTPClientFactory implements PoolableObjectFactory<FTPClient> {
     public void destroyObject(FTPClient ftpClient) throws Exception {
         try {
             if(ftpClient != null && ftpClient.isConnected()) {
-                ftpClient.logout();
+                //ftpClient.logout();
+                ftpClient.disconnect();
             }
         } catch (Exception e) {
             log.error("ftp client logout failed...{}", e);

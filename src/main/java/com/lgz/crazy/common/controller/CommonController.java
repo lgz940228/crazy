@@ -1,7 +1,7 @@
 package com.lgz.crazy.common.controller;
 
 import com.lgz.crazy.common.entities.Res;
-import com.lgz.crazy.config.ftp.FTPUtils;
+import com.lgz.crazy.common.utils.FtpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -62,7 +62,7 @@ public class CommonController {
                         return res;
                     }
                 }
-               return FTPUtils.upload("/images",list);
+               return FtpUtil.upload("/images",list);
             } else {
                 res.setMsg("no file");
             }

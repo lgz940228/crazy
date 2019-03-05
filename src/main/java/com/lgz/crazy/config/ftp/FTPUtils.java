@@ -3,24 +3,19 @@ package com.lgz.crazy.config.ftp;
 import com.lgz.crazy.common.entities.Res;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.UUID;
 
 /**
  * Created by lgz on 2019/2/27.
  */
 @Slf4j
-@Component
+//@Component
 public class FTPUtils {
 
     /**
@@ -28,13 +23,6 @@ public class FTPUtils {
      */
     @Autowired
     public static FTPClientPool ftpClientPool;
-    /**
-     * FTPClient对象
-     */
-    public static FTPClient ftpClient;
-
-
-    private static FTPUtils ftpUtils;
 
     @Autowired
     private FTPProperties ftpProperties;
@@ -43,10 +31,9 @@ public class FTPUtils {
      * 初始化设置
      * @return
      */
-    @PostConstruct
+    //@PostConstruct
     public boolean init() {
         FTPClientFactory factory = new FTPClientFactory(ftpProperties);
-        ftpUtils = this;
         try {
             ftpClientPool = new FTPClientPool(factory);
         } catch (Exception e) {
@@ -64,10 +51,9 @@ public class FTPUtils {
      */
     public static FTPClient getFTPClient() throws Exception {
         //初始化的时候从队列中取出一个连接
-        if (ftpClient==null) {
-            synchronized (FTPClientPool.class) {
-                ftpClient = ftpClientPool.borrowObject();
-            }
+        FTPClient ftpClient = null;
+        synchronized (FTPUtils.class) {
+            ftpClient = ftpClientPool.borrowObject();
         }
         return ftpClient;
     }
@@ -77,7 +63,7 @@ public class FTPUtils {
      * 当前命令执行完成命令完成
      * @throws IOException
      */
-    public void complete() throws IOException {
+    public void complete(FTPClient ftpClient) throws IOException {
         ftpClient.completePendingCommand();
     }
 
@@ -85,8 +71,8 @@ public class FTPUtils {
      * 当前线程任务处理完成，加入到队列的最后
      * @return
      */
-    public void disconnect() throws Exception {
-        ftpClientPool.addObject(ftpClient);
+    public static void disconnect(FTPClient ftpClient) throws Exception {
+        ftpClientPool.returnObject(ftpClient);
     }
 
     public static Res<List<String>> upload(String dir,List<MultipartFile> listFile){
@@ -144,8 +130,9 @@ public class FTPUtils {
      */
     public static boolean uploadFile(String dir,String remoteFileName, InputStream input) {
         boolean result = false;
+        FTPClient ftpClient = null;
         try {
-            getFTPClient();
+            ftpClient = getFTPClient();
             ftpClient.enterLocalPassiveMode();
             if(!ftpClient.changeWorkingDirectory(dir)){
                 throw new RuntimeException("切换目录失败dir="+dir);
@@ -158,7 +145,7 @@ public class FTPUtils {
                 if(input!= null){
                     input.close();
                 }
-                //ftpClient.disconnect();
+                disconnect(ftpClient);
             }catch (Exception e){
                 log.error("流关闭异常",e);
             }
@@ -193,13 +180,13 @@ public class FTPUtils {
      * @return
      * @throws Exception
      */
-    public boolean copyFile(String fromFile, String toFile) throws Exception {
+    /*public boolean copyFile(String fromFile, String toFile) throws Exception {
         InputStream in=getFileInputStream(fromFile);
         getFTPClient();
         boolean flag = ftpClient.storeFile(toFile, in);
         in.close();
         return flag;
-    }
+    }*/
 
     /**
      * 获取文件输入流
@@ -207,14 +194,14 @@ public class FTPUtils {
      * @return
      * @throws IOException
      */
-    public static InputStream getFileInputStream(String fileName) throws Exception {
+    /*public static InputStream getFileInputStream(String fileName) throws Exception {
         ByteArrayOutputStream fos=new ByteArrayOutputStream();
         getFTPClient();
         ftpClient.retrieveFile(fileName, fos);
         ByteArrayInputStream in=new ByteArrayInputStream(fos.toByteArray());
         fos.close();
         return in;
-    }
+    }*/
 
     /**
      * Description: 从FTP服务器下载文件
@@ -222,7 +209,7 @@ public class FTPUtils {
      * @Version1.0
      * @return
      */
-    public static boolean downFile(String remoteFile, String localFile){
+    /*public static boolean downFile(String remoteFile, String localFile){
         boolean result = false;
         try {
             getFTPClient();
@@ -240,7 +227,7 @@ public class FTPUtils {
             }
         }
         return result;
-    }
+    }*/
 
     /**
      * 从ftp中获取文件流
@@ -248,11 +235,11 @@ public class FTPUtils {
      * @return
      * @throws Exception
      */
-    public static InputStream getInputStream(String filePath) throws Exception {
+    /*public static InputStream getInputStream(String filePath) throws Exception {
         getFTPClient();
         InputStream inputStream = ftpClient.retrieveFileStream(filePath);
         return inputStream;
-    }
+    }*/
 
     /**
      * ftp中文件重命名
@@ -261,18 +248,18 @@ public class FTPUtils {
      * @return
      * @throws Exception
      */
-    public boolean rename(String fromFile,String toFile) throws Exception {
+    /*public boolean rename(String fromFile,String toFile) throws Exception {
         getFTPClient();
         boolean result = ftpClient.rename(fromFile,toFile);
         return result;
-    }
+    }*/
 
     /**
      * 获取ftp目录下的所有文件
      * @param dir
      * @return
      */
-    public FTPFile[] getFiles(String dir) throws Exception {
+    /*public FTPFile[] getFiles(String dir) throws Exception {
         getFTPClient();
         FTPFile[] files = new FTPFile[0];
         try {
@@ -281,7 +268,7 @@ public class FTPUtils {
             thr.printStackTrace();
         }
         return files;
-    }
+    }*/
 
     /**
      * 获取ftp目录下的某种类型的文件
@@ -289,7 +276,7 @@ public class FTPUtils {
      * @param filter
      * @return
      */
-    public FTPFile[] getFiles(String dir, FTPFileFilter filter) throws Exception {
+    /*public FTPFile[] getFiles(String dir, FTPFileFilter filter) throws Exception {
         getFTPClient();
         FTPFile[] files = new FTPFile[0];
         try {
@@ -298,14 +285,14 @@ public class FTPUtils {
             thr.printStackTrace();
         }
         return files;
-    }
+    }*/
 
     /**
      * 创建文件夹
      * @param remoteDir
      * @return 如果已经有这个文件夹返回false
      */
-    public boolean makeDirectory(String remoteDir) throws Exception {
+   /* public boolean makeDirectory(String remoteDir) throws Exception {
         getFTPClient();
         boolean result = false;
         try {
@@ -314,9 +301,9 @@ public class FTPUtils {
             e.printStackTrace();
         }
         return result;
-    }
+    }*/
 
-    public boolean mkdirs(String dir) throws Exception {
+   /* public boolean mkdirs(String dir) throws Exception {
         boolean result = false;
         if (null == dir) {
             return result;
@@ -335,5 +322,5 @@ public class FTPUtils {
         }
         ftpClient.changeWorkingDirectory("/");
         return result;
-    }
+    }*/
 }
