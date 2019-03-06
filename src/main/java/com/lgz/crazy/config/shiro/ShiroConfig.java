@@ -1,17 +1,15 @@
 package com.lgz.crazy.config.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by lgz on 2019/3/5.
@@ -33,6 +31,7 @@ public class ShiroConfig {
         //filterChainDefinitionMap.put("/v2/api-docs", "anon");
         // 登录匿名访问
         filterChainDefinitionMap.put("/api/user/login.do", "anon");
+        filterChainDefinitionMap.put("/api/shior/login.do", "anon");
         filterChainDefinitionMap.put("/api/user/logout.do", "logout");
         // 其他路径均需要身份认证，一般位于最下面，优先级最低
         filterChainDefinitionMap.put("/api/**", "authc");
@@ -42,7 +41,7 @@ public class ShiroConfig {
         // 登录成功后跳转的路径
         //shiroFilterFactoryBean.setSuccessUrl("/api/index/index.do");
         // 验证失败后跳转的路径
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/api/shior/403.do");
         /*Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         JsonFilter jsonFilter = new JsonFilter();
         filters.put("login", jsonFilter);
@@ -67,29 +66,48 @@ public class ShiroConfig {
     public MyShiroRealm myShiroRealm(){
         MyShiroRealm myShiroRealm = new MyShiroRealm();
         myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+       /* myShiroRealm.setCachingEnabled(true);
+        //启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
+        myShiroRealm.setAuthenticationCachingEnabled(true);
+        //缓存AuthenticationInfo信息的缓存名称 在ehcache-shiro.xml中有对应缓存的配置
+        myShiroRealm.setAuthenticationCacheName("authenticationCache");
+        //启用授权缓存，即缓存AuthorizationInfo信息，默认false
+        myShiroRealm.setAuthorizationCachingEnabled(true);
+        //缓存AuthorizationInfo信息的缓存名称  在ehcache-shiro.xml中有对应缓存的配置
+        myShiroRealm.setAuthorizationCacheName("authorizationCache");*/
         return myShiroRealm;
+    }
+
+    @Bean
+    public EhCacheManager ehCacheManager(){
+        EhCacheManager cacheManager = new EhCacheManager();
+        cacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
+        return cacheManager;
     }
 
     @Bean
     public SecurityManager securityManager(){
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
+        //securityManager.setCacheManager(ehCacheManager());
+        //配置记住我
+        //securityManager.setRememberMeManager(rememberMeManager());
         return securityManager;
     }
     /**
      *  开启shiro aop注解支持.
      *  使用代理方式;所以需要开启代码支持;
-     * @param securityManager
+     * @param //securityManager
      * @return
      */
-    @Bean
+    /*@Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
-    }
+    }*/
 
-    @Bean(name="simpleMappingExceptionResolver")
+    /*@Bean(name="simpleMappingExceptionResolver")
     public SimpleMappingExceptionResolver
     createSimpleMappingExceptionResolver() {
         SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
@@ -101,5 +119,5 @@ public class ShiroConfig {
         r.setExceptionAttribute("exception");     // Default is "exception"
         //r.setWarnLogCategory("example.MvcLogger");     // No default
         return r;
-    }
+    }*/
 }
