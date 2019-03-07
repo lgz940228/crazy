@@ -25,5 +25,13 @@
 		<from>^/api/personal/personal.html$</from>
 		<to>/api/personal/toPersonal.do</to>
 	</rule>
+	<rule>
+		<from>^/api/shior/403.html$</from>
+		<to>/api/shior/403.do</to>
+	</rule>
+	<rule>
+		<from>^/api/shior/ttt.html$</from>
+		<to>/api/shior/ttt.do</to>
+	</rule>
 
 </urlrewrite>

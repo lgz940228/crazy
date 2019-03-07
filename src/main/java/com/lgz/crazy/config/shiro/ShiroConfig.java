@@ -8,6 +8,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -16,32 +17,44 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+
+    /*@Autowired
+    private CustomerUrlRewriteFilter customerUrlRewriteFilter;*/
+   /* @Autowired
+    private UrlPermissionsAuthorizationFilter urlPermissionsAuthorizationFilter;*/
     @Bean
     public ShiroFilterFactoryBean shirFilter() {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
+        Map<String,Filter> customFilterMap = new LinkedHashMap<>();
+        /*customFilterMap.put("customerUrlRewriteFilter",customerUrlRewriteFilter);*/
+        customFilterMap.put("urlperms",new UrlPermissionsAuthorizationFilter());
+        //customFilterMap.put("urlperms",urlPermissionsAuthorizationFilter());
+        shiroFilterFactoryBean.setFilters(customFilterMap);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 静态资源匿名访问
-        filterChainDefinitionMap.put("/static/**", "anon");
+        /*filterChainDefinitionMap.put("/static*//**", "anon");*/
         // Swagger
         //filterChainDefinitionMap.put("/swagger-ui.html", "anon");
-        filterChainDefinitionMap.put("/webjars/**", "anon");
+        /*filterChainDefinitionMap.put("/webjars*//**", "anon");*/
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         //filterChainDefinitionMap.put("/v2/api-docs", "anon");
         // 登录匿名访问
         filterChainDefinitionMap.put("/api/user/login.do", "anon");
+        filterChainDefinitionMap.put("/api/user/toLogin.do", "anon");
         filterChainDefinitionMap.put("/api/shior/login.do", "anon");
+        filterChainDefinitionMap.put("/api/shior/403.do", "anon");
         filterChainDefinitionMap.put("/api/user/logout.do", "logout");
         // 其他路径均需要身份认证，一般位于最下面，优先级最低
-        filterChainDefinitionMap.put("/api/**", "authc");
+        filterChainDefinitionMap.put("/api/**", "authc,urlperms");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         // 登录的路径
-        shiroFilterFactoryBean.setLoginUrl("/api/user/toLogin.do");
+        shiroFilterFactoryBean.setLoginUrl("/api/user/toLogin.html");
         // 登录成功后跳转的路径
         //shiroFilterFactoryBean.setSuccessUrl("/api/index/index.do");
         // 验证失败后跳转的路径
-        shiroFilterFactoryBean.setUnauthorizedUrl("/api/shior/403.do");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/api/shior/403.html");
         /*Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         JsonFilter jsonFilter = new JsonFilter();
         filters.put("login", jsonFilter);
@@ -61,6 +74,11 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""));
         return hashedCredentialsMatcher;
     }
+
+    /*@Bean
+    public UrlPermissionsAuthorizationFilter urlPermissionsAuthorizationFilter(){
+        return new UrlPermissionsAuthorizationFilter();
+    }*/
 
     @Bean
     public MyShiroRealm myShiroRealm(){

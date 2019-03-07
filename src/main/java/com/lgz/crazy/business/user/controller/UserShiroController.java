@@ -50,9 +50,9 @@ public class UserShiroController {
     @ResponseBody
 
     public Res test(String userCode,String passwd){
-        Subject subject = SecurityUtils.getSubject();
-        boolean aaa = subject.isPermitted("aaa");
-        System.out.println("isPermitted="+aaa);
+        /*Subject subject = SecurityUtils.getSubject();*/
+       /* boolean aaa = subject.isPermitted("aaa");
+        System.out.println("isPermitted="+aaa);*/
         System.out.println("aaa");
         System.out.println("bbb");
         return Res.getSuccessResult();
@@ -62,6 +62,17 @@ public class UserShiroController {
     @RequestMapping("/403")
     public String fo(){
         return "403";
+    }
+
+    @RequestMapping("test2")
+    @ResponseBody
+    public String test2(){
+        return "444";
+    }
+    @RequestMapping("ttt")
+    @ResponseBody
+    public String ttt(){
+        return "444";
     }
 
 }
