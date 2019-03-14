@@ -16,6 +16,10 @@ import java.util.UUID;
  */
 @Slf4j
 //@Component
+/**
+ * @see com.lgz.crazy.common.utils.FtpUtil
+ */
+@Deprecated
 public class FTPUtils {
 
     /**
