@@ -1,6 +1,6 @@
 package com.lgz.crazy.business.user.dao;
 
-import com.lgz.crazy.business.user.entities.UserShior;
+import com.lgz.crazy.business.user.entities.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface UserShiroDao {
 
-    List<UserShior> getUserByCondition(String loginName);
+    List<User> getUserByCondition(User user);
 
+    Integer registerUser(User user);
 }

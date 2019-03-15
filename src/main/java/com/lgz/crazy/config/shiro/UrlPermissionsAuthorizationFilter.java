@@ -1,5 +1,6 @@
 package com.lgz.crazy.config.shiro;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 
 import javax.servlet.DispatcherType;
@@ -18,6 +19,10 @@ public class UrlPermissionsAuthorizationFilter extends PermissionsAuthorizationF
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
         if(request instanceof HttpServletRequest){
             String servletPath = ((HttpServletRequest) request).getServletPath();
+            if(StringUtils.isNotBlank(servletPath)){
+                servletPath = servletPath.replace(".do", "");
+                servletPath = servletPath.replace(".html","");
+            }
             System.out.println("servletPath---"+servletPath);
             return super.isAccessAllowed(request, response, new String[]{servletPath});
         }

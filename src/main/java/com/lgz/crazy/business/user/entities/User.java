@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by lgz on 2019/2/20.
@@ -34,6 +33,6 @@ public class User implements Serializable {
     private String icon;
     private String personalizedSignature;
     private String birthday;
-    private List<String> img;
+    private String img;
     private String rePwd;
 }

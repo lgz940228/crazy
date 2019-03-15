@@ -7,31 +7,26 @@
     <!-- 首页 -->
 	<rule>
 		<from>^/$</from>
-		<to>/api/index/index.do</to>
+		<to type="redirect">/api/index/index.do</to>
 	</rule>
 	<rule>
 		<from>^/api/index/index.html$</from>
-		<to>/api/index/index.do</to>
+		<to type="redirect">/api/index/index.do</to>
 	</rule>
 	<rule>
-		<from>^/api/user/toLogin.html$</from>
-		<to>/api/user/toLogin.do</to>
+		<from>^/api/shiro/toLogin.html$</from>
+		<to>/api/shiro/toLogin.do</to>
 	</rule>
 	<rule>
-		<from>^/api/user/toRegister.html$</from>
-		<to>/api/user/toRegister.do</to>
+		<from>^/api/shiro/toRegister.html$</from>
+		<to>/api/shiro/toRegister.do</to>
 	</rule>
 	<rule>
 		<from>^/api/personal/personal.html$</from>
-		<to>/api/personal/toPersonal.do</to>
+		<to type="redirect">/api/personal/toPersonal.do</to>
 	</rule>
 	<rule>
-		<from>^/api/shior/403.html$</from>
-		<to>/api/shior/403.do</to>
+		<from>^/api/shiro/403.html$</from>
+		<to>/api/shiro/403.do</to>
 	</rule>
-	<rule>
-		<from>^/api/shior/ttt.html$</from>
-		<to>/api/shior/ttt.do</to>
-	</rule>
-
 </urlrewrite>

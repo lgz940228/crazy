@@ -10,7 +10,7 @@ $(function(){
             alert("密码不能为空!");
             return;
         }
-        $.post("/api/user/login.do", { loginName: loginName, passwd: pwd },
+        $.post("/api/shiro/login.do", { userName: loginName, passwd: pwd },
             function(data){
                 if(data.status==1){
                     window.location.href = "/api/index/index.html";

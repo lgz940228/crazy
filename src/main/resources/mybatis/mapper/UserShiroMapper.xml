@@ -3,23 +3,52 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lgz.crazy.business.user.dao.UserShiroDao">
-  <select id="getUserByCondition" parameterType="java.lang.String" resultMap="getUserMap">
+
+  <sql id="selectAll">
+    u.id AS id,
+    u.login_name AS loginName,
+    u.passwd AS passwd,
+    u.user_name AS userName,
+    u.sex AS sex,
+    u.tel AS tel,
+    u.role_id AS roleId,
+    u.nick AS nick,
+    u.salt AS salt,
+    DATE_FORMAT(u.reset_pwd_time,'%Y-%m-%d %H:%i:%s') AS resetPwdTime,
+    DATE_FORMAT(u.create_time,'%Y-%m-%d %H:%i:%s') AS createTime,
+    u.mobile AS mobile,
+    u.email AS email,
+    u.status AS status,
+    u.city AS city,
+    DATE_FORMAT(u.cancel_time,'%Y-%m-%d %H:%i:%s') AS cancelTime,
+    u.cancel_reason AS cancelReason,
+    u.icon AS icon,
+    u.personalized_signature AS personalizedSignature,
+    DATE_FORMAT(u.birthday,'%Y-%m-%d') AS birthday,
+    u.img AS img
+  </sql>
+  <select id="getUserByCondition" parameterType="com.lgz.crazy.business.user.entities.User" resultType="com.lgz.crazy.business.user.entities.User">
     SELECT
-      u.id AS id,
-      u.mobile AS mobile,
-      u.salt AS salt,
-      u.passwd AS passwd
+    <include refid="selectAll"/>
     FROM
 	  sys_user AS u
-    WHERE
-	  u.mobile = #{loginName}
+    WHERE u.status=1
+    <if test="userName != null">
+      AND u.login_name=#{userName}
+    </if>
+    <if test="mobile != null">
+      AND u.mobile=#{mobile}
+    </if>
+    <if test="email != null">
+      AND u.email=#{email}
+    </if>
   </select>
-  <resultMap id="getUserMap" type="com.lgz.crazy.business.user.entities.UserShior">
+  <!--<resultMap id="getUserMap" type="com.lgz.crazy.business.user.entities.User">
     <result column="id" property="id"/>
     <result column="mobile" property="mobile"/>
     <result column="salt" property="salt"/>
     <collection property="perm" column="id" ofType="java.lang.String" select="getPermission" />
-  </resultMap>
+  </resultMap>-->
 
   <select id="getPermission" parameterType="java.lang.String" resultType="java.lang.String">
     SELECT
@@ -32,6 +61,140 @@
 	  p.type = 'permission'
     AND ur.sys_user_id = #{id}
   </select>
+
+  <insert id="registerUser" parameterType="com.lgz.crazy.business.user.entities.User">
+    INSERT INTO sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="nick != null">
+        nick,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+      <if test="resetPwdTime != null">
+        reset_pwd_time,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="cancelTime != null">
+        cancel_time,
+      </if>
+      <if test="cancelReason != null">
+        cancel_reason,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="personalizedSignature != null">
+        personalized_signature,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="loginName != null">
+        #{loginName},
+      </if>
+      <if test="passwd != null">
+        #{passwd},
+      </if>
+      <if test="userName != null">
+        #{userName},
+      </if>
+      <if test="sex != null">
+        #{sex},
+      </if>
+      <if test="tel != null">
+        #{tel},
+      </if>
+      <if test="roleId != null">
+        #{roleId},
+      </if>
+      <if test="nick != null">
+        #{nick},
+      </if>
+      <if test="salt != null">
+        #{salt},
+      </if>
+      <if test="resetPwdTime != null">
+        #{resetPwdTime},
+      </if>
+      <if test="mobile != null">
+        #{mobile},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="email != null">
+        #{email},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="city != null">
+        #{city},
+      </if>
+      <if test="cancelTime != null">
+        #{cancelTime},
+      </if>
+      <if test="cancelReason != null">
+        #{cancelReason},
+      </if>
+      <if test="icon != null">
+        #{icon},
+      </if>
+      <if test="personalizedSignature != null">
+        #{personalizedSignature},
+      </if>
+      <if test="birthday != null">
+        #{birthday},
+      </if>
+      <if test="img != null">
+        #{img},
+      </if>
+    </trim>
+  </insert>
 
 
 

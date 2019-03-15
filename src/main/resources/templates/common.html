@@ -21,11 +21,11 @@
 				<ul class="message-l">
 					<div class="topMessage">
 						<div class="menu-hd">
-							<a th:href="@{/api/user/toLogin.html}" target="_top" class="h" th:if="${session.userLoginInfo == null}">亲，请登录</a>
+							<a th:href="@{/api/shiro/toLogin.html}" target="_top" class="h" th:if="${session.userLoginInfo == null}">亲，请登录</a>
 							<a th:href="@{/api/personal/personal.html}" target="_top" class="h" th:if="${session.userLoginInfo != null}">当前账号</a>
 							<a th:href="@{/api/personal/personal.html}" target="_top" th:if="${session.userLoginInfo != null}" th:text="${session.userLoginInfo.loginType==1?session.userLoginInfo.mobile:session.userLoginInfo.email}"></a>
-							<a th:href="@{/api/user/logout.do}" target="_top" class="h" th:if="${session.userLoginInfo != null}">退出</a>
-							<a th:href="@{/api/user/toRegister.html}" target="_top" th:if="${session.userLoginInfo == null}">免费注册</a>
+							<a th:href="@{/api/shiro/logout.do}" target="_top" class="h" th:if="${session.userLoginInfo != null}">退出</a>
+							<a th:href="@{/api/shiro/toRegister.html}" target="_top" th:if="${session.userLoginInfo == null}">免费注册</a>
 						</div>
 					</div>
 				</ul>

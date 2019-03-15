@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,6 +25,6 @@ public class LoginInfo implements Serializable {
     private String icon;
     private String personalizedSignature;
     private String birthday;
-    private List<String> img;
+    private String img;
     private Integer loginType;//登录类型 1 手机号 2 邮箱
 }

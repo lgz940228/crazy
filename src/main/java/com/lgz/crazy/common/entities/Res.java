@@ -1,5 +1,7 @@
 package com.lgz.crazy.common.entities;
 
+import com.lgz.crazy.common.utils.num.NumUtil;
+
 /**
  * Created by lgz on 2019/2/20.
  */
@@ -24,6 +26,17 @@ public class Res<T> {
         return result;
     }
 
+    public static Boolean isSuc(Res res){
+        if(res!=null && NumUtil.eq(1,res.getStatus())){
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean isNotSuc(Res res){
+        return !isSuc(res);
+    }
+
     public static <T> Res getSuccessResult(T t,String msg) {
         Res result = new Res();
         if(msg!=null){
@@ -32,6 +45,14 @@ public class Res<T> {
             result.setMsg(SUCCESSMSG);
         }
 
+        result.setStatus(SUCCESSSTATUS);
+        result.setData(t);
+        return result;
+    }
+
+    public static <T> Res getSuccessResult(T t) {
+        Res result = new Res();
+        result.setMsg(SUCCESSMSG);
         result.setStatus(SUCCESSSTATUS);
         result.setData(t);
         return result;

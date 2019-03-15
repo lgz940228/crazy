@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<div class="login-boxtitle">
-			<a th:href="@{/api/user/toLogin.do}" class="zcnext am-fr am-btn-default">登录</a>
+			<a th:href="@{/api/shiro/toLogin.html}" class="zcnext am-fr am-btn-default">登录</a>
 			<a href="home/demo.html"><img alt="" th:src="@{/images/logobig.png}" /></a>
 		</div>
 		<div class="res-banner">
@@ -27,74 +27,67 @@
 				<div class="login-box">
 					<div class="am-tabs" id="doc-my-tabs">
 						<ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
-							<li class="am-active"><a href="">用户注册</a></li>
-							<!--<li><a href="">手机号注册</a></li>-->
+							<li class="am-active"><a href="">手机注册</a></li>
+							<li><a href="">邮箱注册</a></li>
 						</ul>
 						<div class="am-tabs-bd">
 							<div class="am-tab-panel am-active">
 								<form method="post">
 									<div class="user-phone">
 										<label for="mobile"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-										<input type="tel" name="mobile" id="mobile" placeholder="请输入手机号">
+										<input type="tel" name="userName" id="mobile" placeholder="请输入手机号">
 									</div>
-						   			<div class="user-email">
-										<label for="email"><i class="am-icon-envelope-o"></i></label>
-										<input type="email" name="email" id="email" placeholder="请输入邮箱账号">
-                 					</div>
-                 					<div class="user-pass">
-										<label for="passwd"><i class="am-icon-lock"></i></label>
-										<input type="password" name="passwd" id="passwd" placeholder="设置密码">
-                 					</div>
-									<div class="user-pass">
-										<label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-										<input type="password" name="rePwd" id="passwordRepeat" placeholder="确认密码">
-									</div>
-								</form>
-								<div class="login-links">
-									<label for="reader-me">
-										<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
-									</label>
-							  	</div>
-								<div class="am-cf">
-									<input id="registerSubmit" type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
-								</div>
-							</div>
-							<!--<div class="am-tab-panel">
-								<form method="post">
-									<div class="user-phone">
-										<label for="phone"><i class="am-icon-mobile-phone am-icon-md"></i></label>
-										<input type="tel" name="mobile" id="phone" placeholder="请输入手机号">
-									</div>
-									<div class="user-email">
-										<label for="email"><i class="am-icon-envelope-o"></i></label>
-										<input type="email" name="email" id="email" placeholder="请输入邮箱账号">
-									</div>
-									&lt;!&ndash;<div class="verification">
+									<!--<div class="verification">
 										<label for="code"><i class="am-icon-code-fork"></i></label>
 										<input type="tel" name="" id="code" placeholder="请输入验证码">
 										<a class="btn" href="javascript:void(0);" onclick="sendMobileCode();" id="sendMobileCode">
 											<span id="dyMobileButton">获取</span>
 										</a>
-									</div>&ndash;&gt;
+									</div>-->
+                 					<div class="user-pass">
+										<label for="passwdMobile"><i class="am-icon-lock"></i></label>
+										<input type="password" name="passwd" id="passwdMobile" placeholder="设置密码">
+                 					</div>
 									<div class="user-pass">
-										<label for="password"><i class="am-icon-lock"></i></label>
-										<input type="password" name="passwd" id="password" placeholder="设置密码">
+										<label for="passwordRepeatMobile"><i class="am-icon-lock"></i></label>
+										<input type="password" name="passwordRepeat" id="passwordRepeatMobile" placeholder="确认密码">
+									</div>
+								</form>
+								<div class="login-links">
+									<label for="reader-me-mobile">
+										<input id="reader-me-mobile" type="checkbox"> 点击表示您同意商城《服务协议》
+									</label>
+							  	</div>
+								<div class="am-cf">
+									<input id="mobileSubmit" type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+								</div>
+							</div>
+							<div class="am-tab-panel">
+								<form method="post">
+									<div class="user-email">
+										<label for="email"><i class="am-icon-envelope-o"></i></label>
+										<input type="email" name="userName" id="email" placeholder="请输入邮箱账号">
+									</div>
+
+									<div class="user-pass">
+										<label for="passwordEmail"><i class="am-icon-lock"></i></label>
+										<input type="password" name="passwd" id="passwordEmail" placeholder="设置密码">
 									</div>
 									<div class="user-pass">
-										<label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-										<input type="password" name="rePwd" id="passwordRepeat" placeholder="确认密码">
+										<label for="passwordRepeatEmail"><i class="am-icon-lock"></i></label>
+										<input type="password" name="passwordRepeat" id="passwordRepeatEmail" placeholder="确认密码">
 									 </div>
 								</form>
 								<div class="login-links">
-									<label for="reader-me">
-										<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
+									<label for="reader-me-email">
+										<input id="reader-me-email" type="checkbox"> 点击表示您同意商城《服务协议》
 									</label>
 								</div>
 									<div class="am-cf">
-										<input type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+										<input id="emailSubmit" type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
 									</div>
 								<hr>
-							</div>-->
+							</div>
 							<script>
 								$(function() {
 									$('#doc-my-tabs').tabs();
