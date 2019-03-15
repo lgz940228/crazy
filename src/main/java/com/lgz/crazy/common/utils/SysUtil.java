@@ -10,7 +10,10 @@ import java.util.Properties;
 
 /**
  * Created by lgz on 2019/2/22.
+ * @see PropertiesReader
+ * @since 2019.03.15
  */
+@Deprecated
 public class SysUtil {
     private final static Logger logger = LoggerFactory.getLogger(SysUtil.class);
     static Hashtable tb = new Hashtable();
