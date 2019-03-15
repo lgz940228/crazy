@@ -1,5 +1,9 @@
 package com.lgz.crazy.common.utils;
 
+import com.lgz.crazy.common.service.impl.CommonServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +15,6 @@ import java.net.URLConnection;
 
 /**
  * 获取经纬度
- *
  * @author jueyue 返回格式：Map<String,Object> map map.put("status",
  * reader.nextString());//状态 map.put("result", list);//查询结果
  * list<map<String,String>>
@@ -20,13 +23,15 @@ import java.net.URLConnection;
 
 public class ObtainLatAndLngByBaiDuUtil {
 
+    private static final Logger Log = LoggerFactory.getLogger(CommonServiceImpl.class);
+
     /**
      * @param addr
      * 查询的地址
      * @return
      * @throws IOException
      */
-    public static Object[] getCoordinate(String addr) throws IOException {
+    public static String[] getCoordinate(String addr) throws IOException {
         String lng = null;//经度
         String lat = null;//纬度
         String address = null;
@@ -65,8 +70,10 @@ public class ObtainLatAndLngByBaiDuUtil {
                     }
                 }
             }
+            return new String[]{lng,lat};
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.error("获取坐标异常",e);
+            return null;
         } finally {
             if(insr!=null){
                 insr.close();
@@ -75,9 +82,7 @@ public class ObtainLatAndLngByBaiDuUtil {
                 br.close();
             }
         }
-        return new Object[]{lng,lat};
     }
-
 
     /*public static void main(String[] args) throws IOException {
         Object[] o = getCoordinate("运城市闻喜县同城镇");

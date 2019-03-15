@@ -1,21 +1,20 @@
 package com.lgz.crazy.common.controller;
 
+import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.lgz.crazy.common.entities.Res;
-import com.lgz.crazy.common.utils.FtpUtil;
+import com.lgz.crazy.common.service.CommonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.LinkedList;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -23,10 +22,16 @@ import java.util.List;
  * Created by lgz on 2019/3/4.
  */
 @Controller
-@RequestMapping("api/common")
+@RequestMapping("common")
 public class CommonController {
 
     private static final Logger Log = LoggerFactory.getLogger(CommonController.class);
+
+    @Autowired
+    private CommonService commonServiceImpl;
+
+    @Autowired
+    private DefaultKaptcha sZKaptcha ;
 
     @RequestMapping(value = "/imgUpload", method = RequestMethod.POST)
     @ResponseBody
@@ -34,38 +39,7 @@ public class CommonController {
 
         Res res = Res.getFailedResult();
         try {
-            if (request instanceof MultipartHttpServletRequest) {
-                MultipartHttpServletRequest req = (MultipartHttpServletRequest) request;
-                String type = request.getParameter("type");
-                Collection<List<MultipartFile>> value = req.getMultiFileMap().values();
-                List<MultipartFile> list = new LinkedList<MultipartFile>();
-                for (List<MultipartFile> temp : value) {
-                    if (temp != null && temp.size() > 0) {
-                        list.addAll(temp);
-                    }
-                }
-                for (MultipartFile file : list) {
-                    String originalFilename = file.getOriginalFilename();
-                    if (!(originalFilename.endsWith(".jpg")
-                            || originalFilename.endsWith(".png")
-                            || originalFilename.endsWith(".jpeg")
-                            || originalFilename.endsWith(".bmp")
-                            || originalFilename.endsWith(".gif")
-                    )) {
-                        res.setStatus(0);
-                        res.setMsg("图片格式不支持");
-                        return res;
-                    }
-                    if (ImageIO.read(file.getInputStream()) == null) {
-                        res.setStatus(0);
-                        res.setMsg("请上传图片");
-                        return res;
-                    }
-                }
-               return FtpUtil.upload("/images",list);
-            } else {
-                res.setMsg("no file");
-            }
+            return commonServiceImpl.handleFileUpload(request);
         } catch (Exception e) {
             Log.error("上传文件失败", e);
             res.setMsg("upload failed...");
@@ -80,4 +54,18 @@ public class CommonController {
         return mv;
     }
 
+    /**
+     * Description: 生成验证码
+     * @return
+     */
+    @RequestMapping(value = "/getYzmImage", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getKaptchaImage(HttpSession session) {
+        return commonServiceImpl.getKaptchaImage(session);
+    }
+
+    @RequestMapping("/obtainLatAndLng")
+    @ResponseBody
+    public Res<String[]> ObtainLatAndLng(String addr){
+        return commonServiceImpl.ObtainLatAndLng(addr);
+    }
 }
