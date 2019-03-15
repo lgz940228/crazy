@@ -23,6 +23,17 @@ public class NumUtil {
         return !eq(o1, o2);
     }
 
+    public static boolean gt(Number number1, Number number2) {
+        if (number1 == null || number2 == null) {
+            return false;
+        }
+        if (number1 instanceof Double || number2 instanceof Double) {
+            return number1.doubleValue() > number2.doubleValue();
+        } else {
+            return number1.longValue() > number2.longValue();
+        }
+    }
+
     /**
      * 判断数值o1 和数值o2是否相等
      *
@@ -84,16 +95,7 @@ public class NumUtil {
         return "true".equalsIgnoreCase(b);
     }
 
-    public static boolean gt(Number number1, Number number2) {
-        if (number1 == null || number2 == null) {
-            return false;
-        }
-        if (number1 instanceof Double || number2 instanceof Double) {
-            return number1.doubleValue() > number2.doubleValue();
-        } else {
-            return number1.longValue() > number2.longValue();
-        }
-    }
+
 
     public static boolean ge(Number number1, Number number2) {
         if (number1 == null || number2 == null) {
