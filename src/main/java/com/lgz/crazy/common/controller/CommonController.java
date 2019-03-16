@@ -68,4 +68,17 @@ public class CommonController {
     public Res<String[]> ObtainLatAndLng(String addr){
         return commonServiceImpl.ObtainLatAndLng(addr);
     }
+
+    @RequestMapping("/500")
+    public String error_500(){
+        return "/error/500";
+    }
+    @RequestMapping("/404")
+    public String error_400(){
+        return "/error/404";
+    }
+    @RequestMapping("/403")
+    public String error_4030(){
+        return "/error/unauth";
+    }
 }
