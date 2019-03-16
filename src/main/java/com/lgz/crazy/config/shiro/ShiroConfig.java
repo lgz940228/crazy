@@ -6,7 +6,6 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -15,7 +14,7 @@ import java.util.Map;
 /**
  * Created by lgz on 2019/3/5.
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
 
     /*@Autowired
