@@ -4,29 +4,6 @@
 
 <mapper namespace="com.lgz.crazy.business.user.dao.UserShiroDao">
 
-  <sql id="selectAll">
-    u.id AS id,
-    u.login_name AS loginName,
-    u.passwd AS passwd,
-    u.user_name AS userName,
-    u.sex AS sex,
-    u.tel AS tel,
-    u.role_id AS roleId,
-    u.nick AS nick,
-    u.salt AS salt,
-    DATE_FORMAT(u.reset_pwd_time,'%Y-%m-%d %H:%i:%s') AS resetPwdTime,
-    DATE_FORMAT(u.create_time,'%Y-%m-%d %H:%i:%s') AS createTime,
-    u.mobile AS mobile,
-    u.email AS email,
-    u.status AS status,
-    u.city AS city,
-    DATE_FORMAT(u.cancel_time,'%Y-%m-%d %H:%i:%s') AS cancelTime,
-    u.cancel_reason AS cancelReason,
-    u.icon AS icon,
-    u.personalized_signature AS personalizedSignature,
-    DATE_FORMAT(u.birthday,'%Y-%m-%d') AS birthday,
-    u.img AS img
-  </sql>
   <select id="getUserByCondition" parameterType="com.lgz.crazy.business.user.entities.User" resultType="com.lgz.crazy.business.user.entities.User">
     SELECT
     <include refid="selectAll"/>
@@ -195,8 +172,91 @@
       </if>
     </trim>
   </insert>
+  <select id="queryRole" resultType="com.lgz.crazy.business.user.entities.SysRole">
+    SELECT
+      <include refid="roleProperties"/>
+    FROM sys_role AS r
+    LEFT JOIN sys_user_role AS ur ON r.id = ur.sys_role_id
+    <where>
+      <if test="available != null">r.available = #{available}</if>
+      <if test="userId != null">AND ur.sys_user_id = #{userId}</if>
+    </where>
+  </select>
 
+  <select id="queryMenu" resultType="com.lgz.crazy.business.user.entities.SysMenu">
+    SELECT
+    <include refid="menuProperties"/>
+    FROM sys_menu AS m
+    LEFT JOIN sys_role_menu AS rm ON m.id = rm.sys_menu_id
+    <where>
+      <if test="visible != null">m.visible = #{visible}</if>
+      <if test="roleIds != null and roleIds.size > 0">
+        AND rm.sys_role_id in
+        <foreach collection="roleIds" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="menuType != null">AND m.menu_type = #{menuType}</if>
+      <if test="parentId != null">AND m.parent_id = #{parentId}</if>
+    </where>
+    ORDER BY m.order_num
+  </select>
 
+  <sql id="selectAll">
+    u.id AS id,
+    u.login_name AS loginName,
+    u.passwd AS passwd,
+    u.user_name AS userName,
+    u.sex AS sex,
+    u.tel AS tel,
+    u.role_id AS roleId,
+    u.nick AS nick,
+    u.salt AS salt,
+    DATE_FORMAT(u.reset_pwd_time,'%Y-%m-%d %H:%i:%s') AS resetPwdTime,
+    DATE_FORMAT(u.create_time,'%Y-%m-%d %H:%i:%s') AS createTime,
+    u.mobile AS mobile,
+    u.email AS email,
+    u.status AS status,
+    u.city AS city,
+    DATE_FORMAT(u.cancel_time,'%Y-%m-%d %H:%i:%s') AS cancelTime,
+    u.cancel_reason AS cancelReason,
+    u.icon AS icon,
+    u.personalized_signature AS personalizedSignature,
+    DATE_FORMAT(u.birthday,'%Y-%m-%d') AS birthday,
+    u.img AS img
+  </sql>
+
+  <sql id="roleProperties">
+    r.id AS id,
+    r.role_name AS roleName,
+    r.available AS available,
+    r.role_key AS roleKey,
+    r.role_sort AS roleSort,
+    r.data_scope AS dataScope,
+    r.create_by AS createBy,
+    DATE_FORMAT(r.create_time,'%Y-%m-%d %H:%i:%s') AS createTime,
+    r.update_by AS updateBy,
+    DATE_FORMAT(r.update_Time,'%Y-%m-%d %H:%i:%s') AS updateTime,
+    r.remark AS remark
+  </sql>
+
+  <sql id="menuProperties">
+    m.id AS id,
+    m.menu_name AS menuName,
+    m.parent_id AS parentId,
+    m.order_num AS orderNum,
+    m.url AS url,
+    m.menu_type AS menuType,
+    m.is_child AS isChild,
+    m.visible AS visible,
+    m.perms AS perms,
+    m.icon AS icon,
+    m.create_by AS createBy,
+    DATE_FORMAT(m.create_time,'%Y-%m-%d %H:%i:%s') AS createTime,
+    m.update_by AS updateBy,
+    DATE_FORMAT(m.update_time,'%Y-%m-%d %H:%i:%s') AS updateTime,
+    m.remark AS remark
+  </sql>
 
 
 

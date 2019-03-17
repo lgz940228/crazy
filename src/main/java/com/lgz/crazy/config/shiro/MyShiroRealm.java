@@ -1,7 +1,6 @@
 package com.lgz.crazy.config.shiro;
 
-import com.lgz.crazy.business.user.entities.LoginInfo;
-import com.lgz.crazy.business.user.entities.User;
+import com.lgz.crazy.business.user.entities.*;
 import com.lgz.crazy.business.user.service.UserShiroService;
 import com.lgz.crazy.business.user.util.UserUtil;
 import com.lgz.crazy.common.entities.Res;
@@ -16,6 +15,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.SimpleByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,11 +37,16 @@ public class MyShiroRealm extends AuthorizingRealm {
         LoginInfo user = (LoginInfo)principalCollection.getPrimaryPrincipal();
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        simpleAuthorizationInfo.addRole("role1");
-        /*for(String str : UserShior.getPerm()){
-            simpleAuthorizationInfo.addStringPermission(str);
-        }*/
-        simpleAuthorizationInfo.addStringPermission("test");
+        Res<List<SysRole>> userRoleList = userShiroService.queryRole(String.valueOf(user.getId()),null);
+        List<String> roleIdList = new ArrayList<>();
+        for(SysRole role : userRoleList.getData()){
+            simpleAuthorizationInfo.addRole(role.getRoleKey());
+            roleIdList.add(String.valueOf(role.getId()));
+        }
+        Res<List<SysMenu>> listRes = userShiroService.queryMenu(roleIdList, "1", null, null);
+        for(SysMenu menu : listRes.getData()){
+            simpleAuthorizationInfo.addStringPermission(menu.getUrl());
+        }
         return simpleAuthorizationInfo;
     }
 

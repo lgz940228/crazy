@@ -26,7 +26,7 @@
 		<to type="redirect">/api/personal/toPersonal.do</to>
 	</rule>
 	<rule>
-		<from>^/api/shiro/403.html$</from>
-		<to>/api/shiro/403.do</to>
+		<from>^/common/403.html$</from>
+		<to>/common/403.do</to>
 	</rule>
 </urlrewrite>

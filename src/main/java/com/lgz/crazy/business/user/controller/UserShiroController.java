@@ -1,6 +1,7 @@
 package com.lgz.crazy.business.user.controller;
 
 import com.lgz.crazy.business.user.entities.LoginInfo;
+import com.lgz.crazy.business.user.entities.SysMenu;
 import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.business.user.service.UserShiroService;
 import com.lgz.crazy.business.user.util.UserUtil;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -132,6 +134,22 @@ public class UserShiroController {
         }
         return res;
     }
+
+    /*@RequestMapping("queryRole")
+    @ResponseBody
+    public Res<List<SysRole>> qureyRole(){
+        Res<List<SysRole>> listRes = userShiroService.queryRole("2", null);
+        return listRes;
+    }*/
+    @RequestMapping("queryMenu")
+    @ResponseBody
+    public Res<List<SysMenu>> qureyRole(){
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("2");
+        Res<List<SysMenu>> listRes = userShiroService.queryMenu(arrayList,"1",null,"0");
+        return listRes;
+    }
+
 
     @RequestMapping("test")
     @ResponseBody

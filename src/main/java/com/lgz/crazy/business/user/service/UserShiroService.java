@@ -1,5 +1,7 @@
 package com.lgz.crazy.business.user.service;
 
+import com.lgz.crazy.business.user.entities.SysMenu;
+import com.lgz.crazy.business.user.entities.SysRole;
 import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.common.entities.Res;
 
@@ -14,4 +16,7 @@ public interface UserShiroService {
 
     Res<Boolean> registerUser(User user);
 
+    Res<List<SysRole>> queryRole(String id,String available);
+
+    Res<List<SysMenu>> queryMenu(List<String> roleIds,String visible, String menuType,String parentId);
 }

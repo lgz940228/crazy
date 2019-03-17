@@ -1,6 +1,8 @@
 package com.lgz.crazy.business.user.service.impl;
 
 import com.lgz.crazy.business.user.dao.UserShiroDao;
+import com.lgz.crazy.business.user.entities.SysMenu;
+import com.lgz.crazy.business.user.entities.SysRole;
 import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.business.user.service.UserShiroService;
 import com.lgz.crazy.business.user.util.UserUtil;
@@ -71,6 +73,18 @@ public class UserShiroServiceImpl implements UserShiroService{
             e.printStackTrace();
         }
         return res;
+    }
+
+    @Override
+    public Res<List<SysRole>> queryRole(String id,String available) {
+       List<SysRole> sysRoleRes = userShiroDao.queryRole(id, available);
+       return Res.getSuccessResult(sysRoleRes);
+    }
+
+    @Override
+    public Res<List<SysMenu>> queryMenu(List<String> roleIds,String visible, String menuType,String parentId) {
+        List<SysMenu> sysMenus = userShiroDao.queryMenu(roleIds, visible, menuType, parentId);
+        return Res.getSuccessResult(sysMenus);
     }
 
     private Res checkUserName(String userName){
