@@ -6,7 +6,7 @@ import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.business.user.service.UserShiroService;
 import com.lgz.crazy.business.user.util.UserUtil;
 import com.lgz.crazy.common.entities.Res;
-import com.lgz.crazy.common.utils.UuidUitl;
+import com.lgz.crazy.common.utils.UuidUtil;
 import com.lgz.crazy.common.utils.num.NumUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -112,7 +112,7 @@ public class UserShiroController {
                 res.setMsg("两次密码不一致！");
                 return res;
             }
-            String salt = UuidUitl.getSalt();
+            String salt = UuidUtil.getSalt();
             Md5Hash md5Hash = new Md5Hash(passwd.trim(),salt,2);
             user.setPasswd(md5Hash.toString());
             user.setSalt(salt);

@@ -7,11 +7,15 @@
     <!-- 首页 -->
 	<rule>
 		<from>^/$</from>
-		<to type="redirect">/api/index/index.do</to>
+		<to>/api/index/index.do</to>
 	</rule>
 	<rule>
 		<from>^/api/index/index.html$</from>
-		<to type="redirect">/api/index/index.do</to>
+		<to>/api/index/index.do</to>
+	</rule>
+	<rule>
+		<from>^/api/admin/index.html$</from>
+		<to type="redirect">/api/admin/index.do</to>
 	</rule>
 	<rule>
 		<from>^/api/shiro/toLogin.html$</from>
@@ -23,7 +27,7 @@
 	</rule>
 	<rule>
 		<from>^/api/personal/personal.html$</from>
-		<to type="redirect">/api/personal/toPersonal.do</to>
+		<to>/api/personal/toPersonal.do</to>
 	</rule>
 	<rule>
 		<from>^/common/403.html$</from>

@@ -18,9 +18,9 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @RequestMapping("/index")
+    @RequestMapping("index")
     public ModelAndView index(){
-        ModelAndView mv = new ModelAndView("ruoyi/index");
+        ModelAndView mv = new ModelAndView("/ruoyi/index");
         List<SysRole> sysRoles = adminService.obtionRoles();
         List<String> roleIds = new ArrayList<>();
         for (SysRole role :sysRoles){
@@ -31,7 +31,9 @@ public class AdminController {
         return mv;
     }
 
-
-
-
+    @RequestMapping("main")
+    public ModelAndView main(){
+        ModelAndView mv = new ModelAndView("/ruoyi/main");
+        return mv;
+    }
 }

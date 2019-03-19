@@ -7,9 +7,9 @@ import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.business.user.service.UserShiroService;
 import com.lgz.crazy.business.user.util.UserUtil;
 import com.lgz.crazy.common.entities.Res;
-import com.lgz.crazy.common.utils.DateUtil;
 import com.lgz.crazy.common.utils.collection.CollectionUtil;
 import com.lgz.crazy.common.utils.num.NumUtil;
+import com.lgz.crazy.common.utils.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +62,7 @@ public class UserShiroServiceImpl implements UserShiroService{
     public Res<Boolean> registerUser(User user) {
         Res res = Res.getFailedResult();
         try {
-            user.setCreateTime(DateUtil.Timestamp2DateTime(System.currentTimeMillis()));
+            user.setCreateTime(DateUtils.Timestamp2DateTime(System.currentTimeMillis()));
             user.setStatus(1);
             Integer integer = userShiroDao.registerUser(user);
             if(integer != null && integer > 0){

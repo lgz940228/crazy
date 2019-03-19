@@ -2,11 +2,14 @@ package com.lgz.crazy.common.service.impl;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.lgz.crazy.common.dao.CommonDao;
 import com.lgz.crazy.common.entities.Res;
+import com.lgz.crazy.common.entities.SysDictionary;
 import com.lgz.crazy.common.service.CommonService;
 import com.lgz.crazy.common.service.CommonUtil;
 import com.lgz.crazy.common.utils.FtpUtil;
 import com.lgz.crazy.common.utils.ObtainLatAndLngByBaiDuUtil;
+import com.lgz.crazy.common.utils.collection.CollectionUtil;
 import com.lgz.crazy.common.utils.num.NumUtil;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -40,6 +43,8 @@ public class CommonServiceImpl implements CommonService {
 
     @Autowired
     private DefaultKaptcha sZKaptcha ;
+    @Autowired
+    private CommonDao commonDao;
 
     @Override
     public Res<List<String>> handleFileUpload(HttpServletRequest request) {
@@ -121,5 +126,20 @@ public class CommonServiceImpl implements CommonService {
             res.setMsg("获取失败");
             return res;
         }
+    }
+
+    @Override
+    public Res<List<SysDictionary>> querySysDictionary(String status,String dictType) {
+        Res res = Res.getFailedResult();
+        try {
+            List<SysDictionary> sysDictList = commonDao.querySysDictionary(status, dictType);
+            if(CollectionUtil.isNotNull(sysDictList)){
+                return Res.getSuccessResult(sysDictList);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return res;
     }
 }

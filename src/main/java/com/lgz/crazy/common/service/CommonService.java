@@ -1,6 +1,7 @@
 package com.lgz.crazy.common.service;
 
 import com.lgz.crazy.common.entities.Res;
+import com.lgz.crazy.common.entities.SysDictionary;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,4 +17,6 @@ public interface CommonService {
     ResponseEntity<byte[]> getKaptchaImage(HttpSession session);
 
     Res<String[]> ObtainLatAndLng(String addr);
+
+    Res<List<SysDictionary>> querySysDictionary(String status,String dictType);
 }

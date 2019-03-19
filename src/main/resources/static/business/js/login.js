@@ -13,7 +13,7 @@ $(function(){
         $.post("/api/shiro/login.do", { userName: loginName, passwd: pwd },
             function(data){
                 if(data.status==1){
-                    window.location.href = "/api/index/index.html";
+                    window.location.href = "/api/admin/index.html";
                 }else{
                     alert(data.msg);
                 }

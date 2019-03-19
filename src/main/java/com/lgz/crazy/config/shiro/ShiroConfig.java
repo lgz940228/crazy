@@ -3,14 +3,20 @@ package com.lgz.crazy.config.shiro;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.boot.web.servlet.DelegatingFilterProxyRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by lgz on 2019/3/5.
@@ -22,7 +28,16 @@ public class ShiroConfig {
     private CustomerUrlRewriteFilter customerUrlRewriteFilter;*/
    /* @Autowired
     private UrlPermissionsAuthorizationFilter urlPermissionsAuthorizationFilter;*/
-    @Bean
+   //@Bean
+   public DelegatingFilterProxyRegistrationBean delegatingFilterProxy(){
+       DelegatingFilterProxyRegistrationBean delegatingFilterProxyRegistrationBean = new DelegatingFilterProxyRegistrationBean("shirFilter");
+       delegatingFilterProxyRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST,DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR);
+       Map<String,String> initParam = new HashMap<>();
+       initParam.put("targetFilterLifecycle","true");
+       delegatingFilterProxyRegistrationBean.setInitParameters(initParam);
+       return delegatingFilterProxyRegistrationBean;
+   }
+    @Bean("shirFilter")
     public ShiroFilterFactoryBean shirFilter() {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -58,7 +73,7 @@ public class ShiroConfig {
         // 登录的路径
         //shiroFilterFactoryBean.setLoginUrl("/api/shiro/toLogin.html");
         // 登录成功后跳转的路径
-        //shiroFilterFactoryBean.setSuccessUrl("/api/index/index.do");
+        //shiroFilterFactoryBean.setSuccessUrl("/api/admin/index.do");
         /*Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         JsonFilter jsonFilter = new JsonFilter();
         filters.put("login", jsonFilter);
@@ -122,14 +137,14 @@ public class ShiroConfig {
      * @param //securityManager
      * @return
      */
-    /*@Bean
+    @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
-    }*/
+    }
 
-    /*@Bean(name="simpleMappingExceptionResolver")
+    @Bean(name="simpleMappingExceptionResolver")
     public SimpleMappingExceptionResolver
     createSimpleMappingExceptionResolver() {
         SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
@@ -141,5 +156,5 @@ public class ShiroConfig {
         r.setExceptionAttribute("exception");     // Default is "exception"
         //r.setWarnLogCategory("example.MvcLogger");     // No default
         return r;
-    }*/
+    }
 }

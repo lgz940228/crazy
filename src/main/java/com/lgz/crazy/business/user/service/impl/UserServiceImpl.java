@@ -7,10 +7,10 @@ import com.lgz.crazy.business.user.service.UserService;
 import com.lgz.crazy.common.constant.Constant;
 import com.lgz.crazy.common.constant.SessionConstant;
 import com.lgz.crazy.common.entities.Res;
-import com.lgz.crazy.common.utils.DateUtil;
 import com.lgz.crazy.common.utils.EncryptUtil;
-import com.lgz.crazy.common.utils.UuidUitl;
+import com.lgz.crazy.common.utils.UuidUtil;
 import com.lgz.crazy.common.utils.num.NumUtil;
+import com.lgz.crazy.common.utils.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public static void main(String[] args) throws Exception{
-        String salt = UuidUitl.getSalt();
+        String salt = UuidUtil.getSalt();
         System.out.println(salt);
         String pwdMD5 = EncryptUtil.encryptMD5("admin"+salt);
         System.out.println(pwdMD5);
@@ -64,13 +64,13 @@ public class UserServiceImpl implements UserService {
                 return res;
             }
             //设置密码
-            String salt = UuidUitl.getSalt();
+            String salt = UuidUtil.getSalt();
             user.setSalt(salt);
             String pwd = user.getPasswd();
             String pwdMD5 = EncryptUtil.encryptMD5(pwd+salt);
             user.setPasswd(pwdMD5);
             //补全信息
-            String now  = DateUtil.nowDateTime();
+            String now  = DateUtils.nowDateTime();
             user.setCreateTime(now);
             user.setStatus(1);
 

@@ -2,8 +2,6 @@ server:
   port: 8800
 
 spring:
-  profiles:
-    active: dev
   application:
     name: grace-dept
   thymeleaf:

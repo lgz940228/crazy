@@ -14,5 +14,13 @@ public class CollectionUtil {
     public static boolean isNotEmpty(Collection collection) {
         return !isEmpty(collection);
     }
+    public static boolean isNull(Collection collection) {
+        return collection == null;
+    }
+
+    public static boolean isNotNull(Collection collection) {
+        return !isNull(collection);
+    }
+
 
 }
