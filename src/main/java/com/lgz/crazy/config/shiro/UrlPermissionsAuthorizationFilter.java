@@ -24,6 +24,11 @@ public class UrlPermissionsAuthorizationFilter extends PermissionsAuthorizationF
                 servletPath = servletPath.replace(".html","");
             }
             System.out.println("servletPath---"+servletPath);
+            String[] split = servletPath.split("/");
+            if(split.length>4){
+                int i = servletPath.lastIndexOf("/");
+                servletPath = servletPath.substring(0,i);
+            }
             return super.isAccessAllowed(request, response, new String[]{servletPath});
         }
         return false;

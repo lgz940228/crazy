@@ -66,4 +66,12 @@ public class CrazyTest {
         //return responseEntity;
         System.out.println(responseEntity);
     }
+
+    public static void main(String[] args) {
+        String path = "/api/admin/index";
+        String[] split = path.split("/");
+        for (String str : split){
+            System.out.println(str);
+        }
+    }
 }

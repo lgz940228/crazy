@@ -86,6 +86,18 @@ public class RoleController extends BaseController{
         return "ruoyi/system/role/rule";
     }
 
+    @RequestMapping("/edit/{id}")
+    public ModelAndView edit(@PathVariable("id") Long id){
+        ModelAndView mv = new ModelAndView("ruoyi/system/role/edit");
+        try {
+            SysRole sysRole = sysRoleService.selectRoleById(id);
+            mv.addObject("role",sysRole);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return mv;
+    }
+
 
     /*@RequestMapping("toRole")
     @ResponseBody

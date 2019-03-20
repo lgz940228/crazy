@@ -44,7 +44,7 @@
 
   <select id="selectRoleById" parameterType="Long" resultType="com.lgz.crazy.business.user.entities.SysRole">
     <include refid="selectRoleVo"/>
-    WHERE r.role_id = #{roleId}
+    WHERE r.id = #{id}
   </select>
   <sql id="selectRoleVo">
     SELECT r.id AS id, r.role_name AS roleName, r.role_key AS roleKey,r.role_sort AS roleSort,r.data_scope AS dataScope,

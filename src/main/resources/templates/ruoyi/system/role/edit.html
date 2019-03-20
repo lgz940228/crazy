@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <meta charset="utf-8">
-<head th:include="include :: header"></head>
-<link th:href="@{/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css}" rel="stylesheet"/>
+<head th:include="ruoyi/include :: header"></head>
+<link th:href="@{/ruoyi/ajax/libs/3.5/css/metro/zTreeStyle.css}" rel="stylesheet"/>
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<form class="form-horizontal m" id="form-role-edit" th:object="${role}">
-			<input id="roleId" name="roleId" type="hidden" th:field="*{roleId}"/>
+			<input id="roleId" name="roleId" type="hidden" th:field="*{id}"/>
 			<div class="form-group">
 				<label class="col-sm-3 control-label ">角色名称：</label>
 				<div class="col-sm-8">
@@ -29,12 +29,12 @@
 				<label class="col-sm-3 control-label">状态：</label>
 				<div class="col-sm-8">
 					<div class="onoffswitch">
-                         <input type="checkbox" th:checked="${role.status == '0' ? true : false}" class="onoffswitch-checkbox" id="status" name="status">
-                         <label class="onoffswitch-label" for="status">
-                             <span class="onoffswitch-inner"></span>
-                             <span class="onoffswitch-switch"></span>
-                         </label>
-                     </div>
+						<input type="checkbox" th:checked="${role.available == '0' ? false:true}" class="onoffswitch-checkbox" id="status" name="status">
+						<label class="onoffswitch-label" for="status">
+							<span class="onoffswitch-inner"></span>
+							<span class="onoffswitch-switch"></span>
+						</label>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -51,11 +51,11 @@
 			</div>
 		</form>
 	</div>
-	<div th:include="include::footer"></div>
-	<script th:src="@{/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js}"></script>
+	<div th:include="ruoyi/include::footer"></div>
+	<script th:src="@{/ruoyi/ajax/libs/3.5/js/jquery.ztree.all-3.5.js}"></script>
 	<script type="text/javascript">
 	     $(function() {
-			var url = ctx + "system/menu/roleMenuTreeData?roleId=" + $("#roleId").val();
+			var url = ctx + "api/menu/roleMenuTreeData.do?id=" + $("#roleId").val();
 			var options = {
 				id: "menuTrees",
 		        url: url,
@@ -64,7 +64,7 @@
 		    };
 			$.tree.init(options);
 		});
-	
+
 		$("#form-role-edit").validate({
 			rules:{
 				roleName:{
@@ -119,7 +119,7 @@
 		});
 
 		function edit() {
-			var roleId = $("input[name='roleId']").val();
+			var id = $("input[name='id']").val();
 			var roleName = $("input[name='roleName']").val();
 			var roleKey = $("input[name='roleKey']").val();
 			var roleSort = $("input[name='roleSort']").val();
@@ -131,7 +131,7 @@
 				type : "POST",
 				url : ctx + "system/role/edit",
 				data : {
-					"roleId": roleId,
+					"id": id,
 					"roleName": roleName,
 					"roleKey": roleKey,
 					"roleSort": roleSort,
@@ -148,7 +148,7 @@
 				}
 			});
 		}
-		
+
 		function submitHandler() {
 	        if ($.validate.form()) {
 	        	edit();
