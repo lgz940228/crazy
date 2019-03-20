@@ -1,9 +1,13 @@
 package com.lgz.crazy.config.shiro;
 
-import com.lgz.crazy.business.user.entities.*;
+import com.lgz.crazy.business.user.entities.LoginInfo;
+import com.lgz.crazy.business.user.entities.SysMenu;
+import com.lgz.crazy.business.user.entities.SysRole;
+import com.lgz.crazy.business.user.entities.User;
 import com.lgz.crazy.business.user.service.UserShiroService;
 import com.lgz.crazy.business.user.util.UserUtil;
 import com.lgz.crazy.common.entities.Res;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -91,5 +95,13 @@ public class MyShiroRealm extends AuthorizingRealm {
         loginInfo.setTel(user.getTel());
         loginInfo.setUserName(user.getUserName());
         loginInfo.setResetPwdTime(user.getResetPwdTime());
+    }
+
+    /**
+     * 清理缓存权限
+     */
+    public void clearCachedAuthorizationInfo()
+    {
+        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
     }
 }

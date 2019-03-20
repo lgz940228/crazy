@@ -20,4 +20,12 @@ public interface RoleDao {
      * @return 角色数据集合信息
      */
     public List<SysRole> selectRoleList(SysRole role);
+    /**
+     * 通过角色ID查询角色
+     *
+     * @param roleId 角色ID
+     * @return 角色对象信息
+     */
+    public SysRole selectRoleById(Long roleId);
+
 }

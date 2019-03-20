@@ -5,17 +5,18 @@ import com.lgz.crazy.business.admin.service.SysRoleService;
 import com.lgz.crazy.business.user.entities.SysRole;
 import com.lgz.crazy.common.constant.Constant;
 import com.lgz.crazy.common.core.controller.BaseController;
+import com.lgz.crazy.common.core.domain.AjaxResult;
 import com.lgz.crazy.common.core.page.TableDataInfo;
 import com.lgz.crazy.common.entities.Res;
 import com.lgz.crazy.common.entities.SysDictionary;
 import com.lgz.crazy.common.service.CommonService;
+import com.lgz.crazy.common.utils.common.ShiroUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -62,6 +63,30 @@ public class RoleController extends BaseController{
         }
       return null;
     }
+
+
+    /**
+     * 修改保存数据权限
+     */
+    @PostMapping("/rule")
+    @ResponseBody
+    public AjaxResult ruleSave(SysRole role)
+    {
+        role.setUpdateBy(ShiroUtils.getLoginName());
+        return toAjax(sysRoleService.updateRule(role));
+    }
+
+    /**
+     * 新增数据权限
+     */
+    @GetMapping("/rule/{roleId}")
+    public String rule(@PathVariable("roleId") Long roleId, ModelMap mmap)
+    {
+        mmap.put("role", sysRoleService.selectRoleById(roleId));
+        return "ruoyi/system/role/rule";
+    }
+
+
     /*@RequestMapping("toRole")
     @ResponseBody
     public String toTest(){

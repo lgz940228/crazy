@@ -16,5 +16,20 @@ public interface SysRoleService {
      * @return 角色数据集合信息
      */
     public List<SysRole> selectRoleList(SysRole role);
+    /**
+     * 修改数据权限信息
+     *
+     * @param role 角色信息
+     * @return 结果
+     */
+    public int updateRule(SysRole role);
+    /**
+     * 通过角色ID查询角色
+     *
+     * @param roleId 角色ID
+     * @return 角色对象信息
+     */
+    public SysRole selectRoleById(Long roleId);
+
 
 }
