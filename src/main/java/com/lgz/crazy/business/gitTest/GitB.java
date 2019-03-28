@@ -10,6 +10,8 @@ public class GitB {
         sout1();
         soutbb();
         sout2();
+        soutbbb();
+        sout3();
     }
     public static void soutb(){
         System.out.println("b");
@@ -22,5 +24,11 @@ public class GitB {
     }
     public static void sout2(){
         System.out.println(2);
+    }
+    public static void soutbbb(){
+        System.out.println("bbb");
+    }
+    public static void sout3(){
+        System.out.println(3);
     }
 }
