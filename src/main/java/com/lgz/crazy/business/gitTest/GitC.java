@@ -6,7 +6,10 @@ package com.lgz.crazy.business.gitTest;
 public class GitC {
 
     public static void main(String[] args) {
-
+        soutc();
+        sout1();
+        soutcc();
+        sout2();
     }
 
     public static void soutc(){
@@ -15,5 +18,11 @@ public class GitC {
 
     public static void sout1(){
         System.out.println(1);
+    }
+    public static void soutcc(){
+        System.out.println("cc");
+    }
+    public static void sout2(){
+        System.out.println(2);
     }
 }
