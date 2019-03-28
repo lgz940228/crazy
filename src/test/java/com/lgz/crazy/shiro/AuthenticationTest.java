@@ -1,12 +1,5 @@
 package com.lgz.crazy.shiro;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.config.IniSecurityManagerFactory;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.Factory;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,7 +24,7 @@ public class AuthenticationTest {
      *      如果返回的认证信息不是null（说明inirealm找到了用户），对IniRealm返回的密码（在ini文件中存在）
      *      和token中的密码进行对比，如果不一致抛出异常
      */
-    @Test
+   /* @Test
     public void loginAndLogoutTest(){
         //创建securityManger工厂，通过ini配置文件创建securityManager工厂
         Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro-first.ini");
@@ -116,5 +109,5 @@ public class AuthenticationTest {
         }
         boolean authenticated = subject.isAuthenticated();
         System.out.println("是否认证通过:"+authenticated);
-    }
+    }*/
 }
