@@ -29,4 +29,7 @@ public class GitTest {
     public static void sout5(){
         System.out.println(5);
     }
+    public static void sout6(){
+        System.out.println(6);
+    }
 }
