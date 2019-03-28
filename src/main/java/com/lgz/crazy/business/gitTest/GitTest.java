@@ -21,4 +21,8 @@ public class GitTest {
     public static void sout4(){
         System.out.println(4);
     }
+
+    public static void sout3(){
+        System.out.println(3);
+    }
 }
