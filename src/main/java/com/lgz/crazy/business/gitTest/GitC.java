@@ -12,6 +12,7 @@ public class GitC {
         sout2();
         soutccc();
         sout3();
+        soutcccc();
     }
 
     public static void soutc(){
@@ -32,5 +33,8 @@ public class GitC {
     }
     public static void sout3(){
         System.out.println(3);
+    }
+    public static void soutcccc(){
+        System.out.println("cccc");
     }
 }
