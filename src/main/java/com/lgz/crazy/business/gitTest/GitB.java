@@ -12,6 +12,7 @@ public class GitB {
         sout2();
         soutbbb();
         sout3();
+        sout4();
     }
     public static void soutb(){
         System.out.println("b");
@@ -30,5 +31,8 @@ public class GitB {
     }
     public static void sout3(){
         System.out.println(3);
+    }
+    public static void sout4(){
+        System.out.println(4);
     }
 }
