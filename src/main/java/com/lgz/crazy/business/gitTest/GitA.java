@@ -12,6 +12,7 @@ public class GitA {
         sout2();
         soutaaa();
         sout3();
+        soutaaaa();
         sout4();
     }
     public static void souta(){
@@ -31,6 +32,9 @@ public class GitA {
     }
     public static void sout3(){
         System.out.println(3);
+    }
+    public static void soutaaaa(){
+        System.out.println("aaaa");
     }
     public static void sout4(){
         System.out.println(4);
